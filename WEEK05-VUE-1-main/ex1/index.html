@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>Basic of VueJS</title>
+</head>
+
+<body>
+    
+        <div class="navbar is-light p-5">
+            <b class="mr-4">WEEK 5 - Vue JS Part 1</b>
+            <a href="./index.html" class="mr-4">Basic of VueJS</a>
+        </div>
+
+
+        <div class="container is-max-desktop p-5">
+            <p class="my-4"><b>ข้อ 1 </b>ประกาศตัวแปรและแสดงค่าของตัวแปรในรูปแบบ Declarative Rendering ดังภาพด้านล่าง
+            </p>
+            <ul>
+                <li><code>student_id</code>แสดงค่า <b>รหัสนักศึกษา</b></li>
+                <li><code>student_fname</code>แสดงค่า <b>ชื่อจริง</b></li>
+                <li><code>student_lname</code>แสดงค่า <b>นามสกุล</b></li>
+            </ul>
+            <br>
+            <img src="./image/no1.png" style="height: 56px;">
+
+            <p class="mt-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> 
+                <ol>
+                    <li>เปิดไฟล์ ex1/ex1.js และประกาศ Vue  instance พร้อมทั้งสร้าง option data และกำหนดค่า สำหรับตัวแปร 
+                        <ul>
+                            <li><code>student_id</code></li>
+                            <li><code>student_fname</code></li>
+                            <li><code>student_lname</code></li>
+                        </ul>
+                    </li>
+                    <li>เปิดไฟล์ ex1/index.html เพื่อทำการ render ค่าตัวแปรทั้ง 3 ตัว ลงใน<code>&lt;div id="ex1"&gt;</code></li>
+                    <li>ลองทดสอบแก้ไขค่าตัวแปรใน console</li>
+                </ol>
+            </p>
+
+            <!-- ข้อ 1 ----------------------------------------------------------------- -->
+            <div id="ex1" class="my-4">
+                <!-- ใส่โค้ดแสดงค่าของตัวแปรใน div นี้ -->
+                {{student_id}}<br>
+                {{student_fname}}
+                {{student_lname}}
+            </div>
+            <hr>
+        </div>
+        <div id=app class="container is-max-desktop px-5">
+            <p class="my-4">
+                <b>ข้อ 2 </b> มีรูปภาพของตัวเลขแบบ 7-Segment โดยเป็นรูปของตัวเลขตั้งแต่ 0-5 รวมทั้งหมด 6 รูป
+                และมีตัวแปร <code>number_runner</code> โดยจะเปลี่ยนค่าเรียงตั้งแต่ 0-6 ทุก ๆ 1 วินาที
+                ให้นักศึกษาแสดงรูปภาพของตัวเลข 7-Segment ให้ตรงกับค่าของ <code>number_runner</code><br>
+                <span class="has-background-warning"> *** กำหนดให้ใช้ v-show *** </span>
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex2"&gt;</code>
+            </p>
+
+            <code class="is-size-5">number_runner = {{number_runner}}</code>
+
+            <!-- ข้อ 2 ----------------------------------------------------------------- -->
+            <div id='ex2'>
+                <img src="./image/0.svg" v-show="number_runner == 0">
+                <img src="./image/1.svg" v-show="number_runner == 1">
+                <img src="./image/2.svg" v-show="number_runner == 2">
+                <img src="./image/3.svg" v-show="number_runner == 3">
+                <img src="./image/4.svg" v-show="number_runner == 4">
+                <img src="./image/5.svg" v-show="number_runner == 5">
+            </div>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 3 </b>ใช้ตัวแปร <code>number_runner</code> กำหนดเงื่อนไขของปุ่มที่จะแสดง
+                <li><code>number_runner</code> เป็นเลขคู่ ให้แสดงปุ่ม<b>สีเขียว</b></li>
+                <li><code>number_runner</code> เป็นเลขคี่ ให้แสดงปุ่ม<b>สีแดง</b></li>
+                <li><code>number_runner</code> เป็นเลข 0 ให้แสดงปุ่ม<b>สีฟ้า</b></li><br>
+                <span class="has-background-warning"> *** กำหนดให้ใช้ v-if *** </span>
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex3"&gt;</code>
+            </p>
+            <br><code class="is-size-5">number_runner = {{number_runner}}</code>
+
+            <!-- ข้อ 3 ----------------------------------------------------------------- -->
+            <div id='ex3'>
+                <a class="button is-danger" v-if="number_runner % 2 == 1 && number_runner != 0">Odd Number</a>
+                <a class="button is-success" v-if="number_runner % 2 == 0">Even Number</a>
+                <a class="button is-info" v-if="number_runner == 0">Zero Number</a>
+            </div>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 4 </b> แสดงผล Array ชื่อว่า <code>months</code>ในรูปแบบ List (ใช้ HTML tag UL)
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex4"&gt;</code> (Array <code>months</code> ดูได้ในไฟล์ ex1/ex2-7.js)
+            </p>
+
+            <!-- ข้อ 4 ----------------------------------------------------------------- -->
+            <div id='ex4'>
+                <ul>
+                    <li v-for="mon in months">{{mon}}</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 5 </b> มีตัวแปร counter กับปุ่มบวก และปุ่มลบค่า ลองกดดูแล้วค่ามันยังไม่เปลี่ยนเลย
+                ให้นักศึกษาทำให้ปุ่มสามารถเพิ่มลดค่าได้ โดยเมื่อคลิกปุ่มเครื่องหมายลบ (-) ค่า counter จะ<b>ลดลง 1
+                    ค่า</b>
+                และเมื่อคลิกปุ่มเครื่องหมายบวก (+) ค่า counter จะ<b>เพิ่มขึ้น 1 ค่า</b>
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex5"&gt;</code> (ตัวแปร <code>counter</code> ดูได้ในไฟล์ ex1/ex2-7.js)
+            </p>
+
+            <!-- ข้อ 5 ----------------------------------------------------------------- -->
+            <div id='ex5'>
+                <a class=button @click="counter--">-</a>
+                <a class="is-size-4 mx-5">{{counter}}</a>
+                <a class=button @click="counter++">+</a>
+                <a class=button @click="counter=0">RESET</a>
+            </div>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 6 </b> มี Dropdown ของ Bulma สวย ๆ มาให้อันนึง
+                แต่ว่าเมื่อลองนำโค้ดมาใส่แล้วพบว่ามันแสดง Dropdown มาให้เองโดยที่ยังไม่ได้กดเลย
+                หน้าที่ของนักศึกษาคือทำให้
+                Dropdown ทำงานได้ คือเมื่อกดหนึ่งครั้งก็จะแสดง Dropdown และเมื่อกดอีกครั้งก็จะปิด Dropdown โดยข้อมูลใน
+                Dropdown คือ List ของวันในสัปดาห์ โดยใช้ข้อมูลจาก <code>months</code>
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex6"&gt;</code> (Array <code>months</code> ดูได้ในไฟล์ ex1/ex2-7.js)
+            </p>
+
+            <!-- ข้อ 6 ----------------------------------------------------------------- -->
+            <div id='ex6'>
+                <div :class="['dropdown', selectiondrop ? 'is-active' : '']">
+
+                    <div class="dropdown-trigger">
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="selectiondrop = !selectiondrop">
+                            <span>Month Selection</span>
+                            <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a class="dropdown-item" v-for="month in months">
+                                {{month}}
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <hr style="margin-top: 5rem;">
+
+            <p class="my-4"><b>ข้อ 7 </b> มี Array ชื่อว่า <code>week</code> โดยเป็น Array ของ Object
+                ของแต่ละวันในหนึ่งสัปดาห์
+                โดยแต่ละวันจะประกอบไปด้วย
+                <code>title</code> คือชื่อของวัน และ <code>color</code> คือสีของวัน
+                หน้าที่ของนักศึกษาคือให้แสดง<code>title</code>วัน เรียงกันเป็น List (ใช้ HTML tag UL)
+                และใส่ <b>style</b> สีตัวอักษรของแต่ละวันตาม<code>color</code>ของแต่ละวัน
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex7"&gt;</code> (Array <code>week</code> ดูได้ในไฟล์ ex1/ex2-7.js)
+            </p>
+
+            <!-- ข้อ 7 ----------------------------------------------------------------- -->
+            <div id="ex7">
+                <ul>
+                    <li v-for="wk in week">
+                        <span :style="{color: wk.color}">
+                            {{wk.title}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!-- script -->
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./ex1.js"></script>
+    <script src="./ex2-7.js"></script>
+</body>
+
+</html>

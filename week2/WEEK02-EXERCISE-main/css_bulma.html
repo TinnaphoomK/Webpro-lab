@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>Bulma</title>
+    <style>
+        .column {
+            text-align: center;
+            color: white;
+        }
+
+        .columns {
+            margin: 0;
+        }
+
+        ul {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 40px;
+            list-style-type: square;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar is-light p-5">
+        <b class="mr-4">WEEK 2</b>
+        <a href="./html.html" class="mr-4">HTML+CSS</a>
+        <a href="./position.html" class="mr-4">HTML+CSS(2)</a>
+        <a href="./css_bulma.html" class="mr-4">Bulma</a>
+        <a href="./landing_page.html">Landing Page</a>
+    </div>
+
+    <div class="container is-max-desktop p-5">
+        <h1 class="my-4"><b>ข้อ 3 </b>ใช้ Bulma ช่วยในการจัดการ Style</h1>
+
+        <!-- ข้อ 3.1 color bulma -->
+        <li class="my-4"><b>ข้อ 3.1 </b>สร้างปุ่มและใส่สีให้ปุ่มตามนี้เลยยยย <a target="blank"
+                href="https://bulma.io/documentation/elements/button/">การตั้งค่าต่าง ๆ ของ button ที่นี่</a></li>
+
+        <img width="60%" class="mb-5 box" src="./assets/proposition/3.1.png">
+
+
+
+        <p>
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นเขียน code ใน <code>&lt;div id="ex3_1"&gt;</code>
+        </p>
+        <div id="ex3_1">
+            <input type="submit" class="button has-background-primary has-text-white	" value="สีหลัก" >
+            <input type="submit" class="button has-background-link has-text-white	" value="ลิ้งค์" >
+            <input type="submit" class="button has-background-info has-text-white	" value="ข้อมูล" >
+            <input type="submit" class="button has-background-success has-text-white	" value="สำเร็จ" >
+            <input type="submit" class="button has-background-warning has-text-white	" value="คำเตือน" >
+            <input type="submit" class="button has-background-danger has-text-white	" value="อันตราย" >
+            <input type="submit" class="button has-background-white " value="ขาว" >
+            <input type="submit" class="button has-background-black has-text-white	" value="ดำ" >
+            <input type="submit" class="button has-background-light " value="สว่าง" >
+            <input type="submit" class="button has-background-dark has-text-white	" value="มืด" >
+
+        </div>
+
+        <br>
+        <hr>
+
+        <!-- ข้อ 3.2 text bulma -->
+        <li class="my-4"><b>
+                ข้อ 3.2
+            </b>มีข้อความให้มา นักศึกษาจะต้องใช้ Bulma ในการจัดรูปแบบข้อความตามนี้
+            <ul>
+                <li>ตัวอักษรอยู่ตรงกึ่งกลาง</li>
+                <li>ตัวอักษรขนาด 1.5 rem (ใช้ class ของ Bulma)</li>
+                <li>สีพื้นหลังเป็นสี info-light <a target="blank"
+                        href="https://bulma.io/documentation/helpers/color-helpers/">ดูสีต่าง
+                        ๆ ที่นี่</a></li>
+                <li>สีตัวอักษรเป็นสี info</li>
+            </ul>
+        </li>
+
+
+        <!-- แก้ไขรูปแบบข้อความข้่งล่างได้เลย -->
+        <p class="mb-3">
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นแก้ไข attribute class ของ tag <code>&lt;p id="ex3_2"&gt;</code>
+        </p>
+        <p class="has-background-success has-text-white is-size-6 has-text-centered 	"  id="ex3_2">Lorem ipsum dolor sit amet,
+            consectetur adipisicing
+            elit, sed
+            do eiusmod tempor
+            incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+            ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+            deserunt mollit anim id est laborum.
+        </p>
+        <br>
+        <hr>
+
+        <!-- ข้อ 3.3 size bulma -->
+        <li class="my-4"><b>ข้อ 3.3 </b>มีปุ่มมาให้อีกละ ทำปุ่มและจัดตำแหน่งของปุ่มตามนี้</li>
+        <ul>
+            <li>padding ของปุ่มแนวนอน 3rem แนวตั้ง 1rem <a target="blank"
+                    href="https://bulma.io/documentation/helpers/spacing-helpers/">ดู space ที่นี่</a></li>
+            <li>margin ของปุ่ม ด้านบน 3rem ด้านซ้าย 0.5rem ด้านล่าง 1.5rem</li>
+            <li>ปุ่มขนาด Meduim</li>
+            <li>ตัวอักษรของปุ่มเป็นตัวหนา <a target="blank"
+                    href="https://bulma.io/documentation/helpers/typography-helpers/">ดู text weight ที่นี่</a></li>
+            <li>ปุ่มเป็นสี info</li>
+        </ul>
+
+        <p class="mb-3">
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นแก้ไข attribute class ของ tag <code>&lt;a id="ex3_3"&gt;</code>
+        </p>
+        <div class="has-background-dark is-light p-3">
+            <!-- แก้ไขปุ่มที่มีให้ได้เลย -->
+            <a class =" has-background-info button is-medium mt-6 ml-2 mb-5 pt-4 pl-6 has-text-weight-bold	" id="ex3_3" class="button">ปุ่มนี้กดได้แต่ไม่มีไรขึ้นหรอก</a>
+
+        </div>
+
+        <br>
+        <hr>
+
+        <!-- ข้อ 3.4 form in bulma -->
+        <li class="my-4"><b>ข้อ 3.4 </b>พอดีฟอร์มหน้าเมื่อกี้ไม่ค่อยสวยเลย
+            นักศึกษาเลยอยากจะตกแต่งฟอร์มหน้าเมื่อกี้ให้สวยขึ้นโดยใช้
+            Bulma ตามรูปเลย <a href="https://bulma.io/documentation/form/general/" target="blank">ดูวิธีทำฟอร์มโดยใช้
+                Bulma ที่นี่</a></li>
+
+        <img width="60%" class="mb-5 box" src="./assets/proposition/3.4.png">
+
+        
+        <p class="mb-3">
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นแก้ไข code ใน <code>&lt;form id="form"&gt;</code>
+        </p>
+        <form id="form">
+            <div class="field">
+                <p class="control has-icons-left">
+                  <span class="select">
+                    <select>
+                      <option selected>เลือกคำนำหน้า</option>
+                      <option>นาย</option>
+                      <option>นาง</option>
+                      <option>นางสาว</option>
+                    </select>
+                  </span>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-globe"></i>
+                  </span>
+                </p>
+              </div>
+            <div class="field">
+                <label class="label">ชื่อจริง</label>
+                <div class="control">
+                  <input class="input" type="text" >
+                </div>
+              </div>
+              
+              <div class="field">
+                <label class="label">นามสกุล</label>
+                <div class="control">
+                  <input class="input" type="email" >
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">วันเกิด</label>
+                <div class="control">
+                  <input class="input" type="date" >
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">อายุ</label>
+                <div class="control">
+                  <input class="input" type="email" >
+                </div>
+              </div>
+              <div class="control">
+                <label class="radio">
+                  <input type="radio" name="answer">
+                  ปี1
+                </label>
+                <label class="radio">
+                  <input type="radio" name="answer">
+                  ปี2
+                </label>
+                <label class="radio">
+                    <input type="radio" name="answer">
+                    ปี3
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="answer">
+                    ปี4
+                  </label>
+              </div>
+              <label class="checkbox mt-4">
+                <input type="checkbox">
+                Subscibe News
+              </label>
+              <label class="checkbox mt-4">
+            <div>
+                <input type="checkbox">
+                Accept the agreement
+              </label>
+            </div>
+              <div class="control mt-4">
+                <button class="button is-link">Submit</button>
+              </div>
+        </form>
+
+        <!-- ส่วนสำหรับแสดงข้อมูลจาก Form -->
+        <p id="data"></p>
+
+        <br>
+        <hr>
+
+        <!-- ข้อ 3.5 Card bulma -->
+        <li class="my-4"><b>ข้อ 3.5 </b>หลังจากนักศึกษาได้เรียนวิชา Web Programing มาได้ 2 week แล้ว
+            นักศึกษารู้สึกชอบวิชานี้เป็นอย่างมาก เลยอยากจะเขียนรีวิววิชานี้ให้คนอื่นได้รับรู้ถึงความน่าเรียน
+            นักศึกษาจึงได้สร้าง Card ขึ้นมาก่อน เพื่อใช้ในการลิ้งค์ไปยังรีวิวของนักศึกษา โดยหน้าตาของ Card
+            ที่นักศึกษาจินตนาการไว้จะมีลักษณะดังนี้ <a href="https://bulma.io/documentation/components/card/"
+                target="blank">ดูวิธีสร้าง Card ที่นี่</a></li>
+        <img width="30%" class="mb-5" src="./assets/proposition/3.5.png">
+
+        <p class="mb-3">
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นแก้ไข code ใน <code>&lt;div id="ex3_5"&gt;</code>
+        </p>
+        <!-- สร้าง card ที่นี่ -->
+        <div id="ex3_5">
+            
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-4by3">
+      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+    </figure>
+  </div>
+  <div class="card-content">
+    <p class="title is-4">รีวิววิชา Web Programiing</p>
+    </div>
+    <div class="content ml-5 mb-6">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris
+    </div>
+    <footer class="card-footer">
+        <a  class="card-footer-item">Like</a>
+        <a  class="card-footer-item">Favorite name</a>
+        <a  class="card-footer-item">Share</a>
+    
+      </footer>
+  </div>
+
+</div>
+
+        <!-- ข้อ 4 column bulma -->
+        <p class="my-5"><b>ข้อ 4 </b>แบ่ง Column ตามในรูปเลยย (<a href="https://bulma.io/documentation/columns/basics/">ดู doc เกี่ยวกับ Columns</a>)</p>
+        <img class="mb-6 box" src="./assets/proposition/4.png">
+
+        <p class="mb-3">
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นแก้ไข code ใน <code>&lt;div id="ex4"&gt;</code>
+        </p>
+        <!-- สร้าง Column ต่อจากนี้เลย -->
+        <div id="ex4">
+            <!-- ตัวอย่างแถวที่ 1 -->
+            <div class="columns">
+                <div class="column has-background-danger is-four-fifths">
+                  4 of 5
+                </div>
+                <div class="column has-background-light has-text-black">
+                  Auto
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-background-link is-three-quarters">
+                  3 of 4
+                </div>
+                <div class="column has-background-light has-text-black">
+                  Auto
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-background-primary is-one-quarter">
+                  1 of 4
+                </div>
+                <div class="column has-background-light has-text-black">
+                  Auto
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-background-danger is-2">
+                  2
+                </div>
+                <div class="column has-background-warning is-2">
+                    2
+                  </div>
+                  <div class="column has-background-success is-2">
+                    2
+                  </div>
+                  <div class="column has-background-primary is-2">
+                    2
+                  </div>
+                  <div class="column has-background-info is-2">
+                    2
+                  </div>
+                  <div class="column has-background-link is-2">
+                    2
+                  </div>
+            </div>
+            <div class="columns">
+                <div class="column has-background-white is-one-third  ">
+
+                </div>
+                <div class="column has-background-primary has-text-white ">
+                        4
+                </div>
+                <div class="column has-background-white is-one-third  ">
+
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-background-white is-one-third                ">
+
+                </div>
+                <div class="column has-background-danger has-text-white ">
+                  8
+                </div>
+            </div>
+
+
+        </div>
+        
+
+
+
+
+
+
+        
+        <hr>
+        <!-- ข้อ 5 column bulma -->
+        <p class="my-5"><b>ข้อ 5 </b>ทดลองสร้าง Landing Page แบบง่ายๆ ด้วย Bulma</p>
+        <p>ตัวอย่าง Landing Page</p>
+        <img class="mb-6 box" src="./assets/proposition/5.png">
+        
+        <p class="mb-3">
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นแก้ไข code ใน <code>&lt;div id="ex5"&gt;</code>
+            ชื่อไฟล์ <a href="/landing_page.html"><code>landing_page.html</code></a>
+        </p>
+        <p><b>Guideline</b></p>
+        <ul>
+            <li>เริ่มจากการสร้าง Navigation Bar กันก่อน (<a href="https://bulma.io/documentation/components/navbar/#docsNav">Doc Navbar</a>) </li><br>
+            <li>สร้าง Hero Section โดยให้ตัวอักษรอยู่ตรงกลางด้วย (<a href="https://bulma.io/documentation/layout/hero/">Doc Hero</a>) </li><br>
+            <li>สร้างส่วนแสดงข้อมูลของเว็บไซต์โดย Layout เป็นไปตามภาพตัวอย่างและต้องมีการใช้ Card อย่างน้อย 1 อันด้วย  (<a href="https://bulma.io/documentation/layout/tiles/">Doc Tiles</a>)</li><br>
+            <li>สร้าง Footer โดยให้ใส่ ชื่อ และ รหัสนักศึกษา ใน Footer (<a href="https://bulma.io/documentation/layout/footer/">Doc Footer</a>) </li><br>
+        </ul>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ส่วนสำหรับแสดงข้อมูลจาก Form -->
+    <script>
+        let form = document.getElementById('form');
+        form.addEventListener('submit', (event) => {
+            // console.log(form.elements['name'].value)
+            document.getElementById("data").innerHTML =
+                form.elements['prename'].value + form.elements['fname'].value + " " + form.elements['lname'].value + "<br>เกิดวันที่ " +
+                form.elements['dob'].value + " อายุ " + form.elements['age'].value + "ปี อยู่ปี " + form.elements['year'].value + "<br>" +
+                "Subscribe=" + form.elements['subscribe'].checked + "<br>" + "Accept=" + form.elements['accept'].checked
+            event.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

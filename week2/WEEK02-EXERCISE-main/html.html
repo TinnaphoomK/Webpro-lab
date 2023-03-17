@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>HTML Assignment</title>
+    <style>
+        /* class ของ table */
+        td,
+        th {
+            border: 1px solid #000000;
+            padding: 8px;
+        }
+
+        label,
+        input {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 40px;
+            list-style-type: square;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar is-light p-5">
+        <b class="mr-4">WEEK 2</b>
+        <a href="./html.html" class="mr-4">HTML+CSS</a>
+        <a href="./position.html" class="mr-4">HTML+CSS(2)</a>
+        <a href="./css_bulma.html" class="mr-4">Bulma</a>
+        <a href="./landing_page.html">Landing Page</a>
+    </div>
+
+    <div class="container is-max-desktop p-5">
+
+        <!-- ข้อ 1  Table-->
+
+        <p class="my-4"><b>ข้อ 1 </b> นักศึกษาได้ทำการสั่งอุปกรณ์คอมพิวเตอร์ แต่ไม่มีใบเสร็จให้
+            นักศึกษาจึงต้องทำใบเสร็จเอง
+            โดยมีรูปแบบข้อมูลตามในรูป</p>
+        <img width="60%" class="box" src="./assets/proposition/1.png">
+        <p>
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นเขียนตารางด้วย HMTL ใน <code>&lt;div id="ex1"&gt;</code>
+        </p>
+        <div id="ex1">
+
+            <table style="width:50%;">
+                <tr>
+                    <th colspan="5" style="background-color:dodgerblue; text-align: center ; color:white;">Invoice</th>
+                </tr>
+                <tr>
+                    <td rowspan="2" style="width:150px"><img src="./assets/it-logo.png"></td>
+                    <th>ID</th>
+                    <td>รหัสนักศึกษา</td>
+                    <td>Date</td>
+                    <td>22/01/2021</td>
+                </tr>
+                <tr>
+                    <th colspan="4" style="text-align:center;">Name</th>
+
+                </tr>
+                <tr>
+                    <th colspan="6" style="text-align: center ;">Order</th>
+                </tr>
+                <tr>
+                    <td colspan="3">Monitor 24 inch</td>
+                    <td>x1</td>
+                    <td>3900</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Ram 4 GB</td>
+                    <td>x2</td>
+                    <td>3200</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Fan</td>
+                    <td>x3</td>
+                    <td>120</td>
+                </tr>
+                <tr>
+                    <th colspan="3" style=" text-align: right;">Total</th>
+                    <td colspan="2" style="background-color:yellow">10660 ฿</td>
+                </tr>
+            </table>
+
+        </div>
+
+        <!-- ข้อ 2 Form-->
+        <br><hr>
+        <p class="my-4"><b>ข้อ 2 </b>นักศึกษาอยากได้ข้อมูลของผู้ใช้งาน จึงกำหนดฟอร์มให้ผู้ใช้งานกรอกดังนี้
+        </p>
+        <ul>
+            <li>ตัวเลือกคำนำหน้าชื่อ ประกอบไปด้วย นาย/นาง/นางสาว โดยให้ <code>name="prename"</code></li>
+            <li>ช่องกรอกชื่อจริง ให้ตั้ง <code>name="fname"</code></li>
+            <li>ช่องกรอกนามสกุล ให้ตั้ง <code>name="lname"</code></li>
+            <li>ช่องใส่วันเกิด โดยจะกดเลือกวันที่ได้ ให้ตั้ง <code>name="dob"</code></li>
+            <li>ช่องใส่อายุ กรอกได้เฉพาะตัวเลข ให้ตั้ง <code>name="age"</code></li>
+            <li>ปุ่มตัวเลือกชั้นปี radio button ให้ตั้ง <code>name="year"</code></li>
+            <li>checkbox เพื่อเลือกว่าจะติดตามข่าวสารหรือไม่ ให้ตั้ง <code>name="subscribe"</code> และ value="subscribe"</li>
+            <li>checkbox เพื่อเลือกว่าจะยอมรับหรือไม่ ให้ตั้ง <code>name="accept"</code> และ value="accept"</li>
+            <li>ปุ่มสำหรับ submit ข้อมูล</li>
+        </ul>
+
+        <p class="mb-2">
+            หน้าที่ของนักศึกษาคือให้สร้างฟอร์มตามที่กำหนด
+            เพื่อเช็กว่าแบบฟอร์มที่นักศึกษาทำนั้นถูกต้องหรือยัง
+            ให้เช็กโดยการกดปุ่ม submit ข้อมูลที่กรอกไปในฟอร์มจะแสดงออกมา ตามรูป</p>
+
+        <img width="60%" class="box" src="./assets/proposition/2.png">
+        <p>
+            <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นเขียน code ใน <code>&lt;form id="form"&gt;</code>
+        </p>
+        <form id="form">
+            <div>
+            <select name="prename" id="">
+                <option value="">นาย</option>
+                <option value="">นางสาว</option>
+                <option value="">นาง</option>
+            </select>
+            ชื่อจริง:
+            <input type="text" name="fname" id="" >
+            นามสกุล:
+            <input type="text" name="lname" id="" >
+        </div>
+        <div>
+            วัดเกิด:
+            <input type="date" id="" name="dob">
+            อายุ:
+            <input type="text" name="age" id="" >
+        </div>
+        <div>
+            <p>ชั้นปี</p>
+            <input type="radio" name="year" value="1" id="">ปี1
+            <input type="radio" name="year" value="2" id="">ปี2
+            <input type="radio" name="year" value="3" id="">ปี3
+            <input type="radio" name="year" value="4" id="">ปี4
+        </div>
+        <div>
+            <input type="checkbox" name="subscribe" id="">Subscribe News
+        </div>
+        <div>
+            <input type="checkbox" name="accept" id="">Accept the argeement
+        </div>
+        <div>
+            <input type="submit" name="" id="">
+        </div>
+        </form>
+
+        <!-- ส่วนสำหรับแสดงข้อมูลจาก Form -->
+        <p id="data"></p>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- ส่วนสำหรับแสดงข้อมูลจาก Form -->
+    <script>
+        let form = document.getElementById('form');
+        form.addEventListener('submit', (event) => {
+            // console.log(form.elements['name'].value)
+            document.getElementById("data").innerHTML =
+                form.elements['prename'].value + form.elements['fname'].value + " " + form.elements['lname'].value + "<br>เกิดวันที่ " +
+                form.elements['dob'].value + " อายุ " + form.elements['age'].value + "ปี อยู่ปี " + form.elements['year'].value + "<br>" +
+                "Subscribe=" + form.elements['subscribe'].checked + "<br>" + "Accept=" + form.elements['accept'].checked
+            event.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

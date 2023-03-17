@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <title>WebPro Shop</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!--  code โจทย์ ย่อ code ของโจทย์ไว้ก็ได้ code จะได้ไม่ดูเยอะเกินไป------------------------------------------------------------------>
+      <div class="modal" v-bind:class="{'is-active':show_modal}">
+        <div class="modal-background" @click="show_modal = !show_modal"></div>
+        <div class="modal-card" style="max-width: 960px; width: 90%">
+          <header class="modal-card-head">
+            <p class="modal-card-title">โจทย์</p>
+            <button
+              @click="show_modal = !show_modal"
+              class="delete"
+              aria-label="close"
+            ></button>
+          </header>
+          <section class="modal-card-body">
+            <p class="has-background-info-light p-2">
+              นี่คือ Shop ของนักศึกษาที่ทำไว้เมื่อสัปดาห์ที่แล้ว โดยสามารถแก้ไข
+              Vue Instance ที่อยู่ใน
+              <code>&lt;script&gt;</code> ที่อยู่ส่วนล่างของ
+              <code>index.html</code> ได้เลย
+            </p>
+            <p class="my-4">
+              <b>ข้อ 1 </b> สร้าง Method ที่ชื่อว่า <code>addToCart()</code>
+              เพื่อใช้แทนการเพิ่มสินค้าลงตะกร้าแบบเดิม
+              โดยเมื่อกดเพิ่มสินค้าลงไปในตะกร้า
+              <li>
+                หากมีสินค้าอยู่แล้ว ในตะกร้าให้เปลี่ยนค่า quantity
+                ของสินค้าชิ้นนั้นในตะกร้าให้<b>เพิ่มขึ้นทีละ 1</b>
+              </li>
+              <li>
+                หากสินค้าชิ้นนั้นไม่ได้อยู่ในตะกร้า
+                จะเพิ่มสินค้าชิ้นนั้นลงในตะกร้า และกำหนดให้จำนวนสินค้า<b
+                  >เท่ากับ 1</b
+                >
+              </li>
+            </p>
+            <hr />
+            <p class="my-4">
+              <b>ข้อ 2 </b> สร้าง Method ชื่อว่า <code>removeFromCart()</code>
+              เพื่อใช้ในการลบสินค้าชิ้นเดียว
+              โดยจะถูกเรียกเมื่อกดปุ่มรูปถังขยะของสินค้าในตะกร้า
+              สินค้าชิ้นนั้นก็จะถูกเอาออกจากตะกร้า
+            </p>
+            <hr />
+            <p class="mt-4">
+              <b>ข้อ 3 </b> ให้นักศึกษารวมราคาของสินค้าทั้งหมด
+              และแสดงราคารวมไว้ที่
+              <code>&lt;span id="totalPrice"&gt;</code>
+            </p>
+            <hr />
+            <p class="my-4">
+              <b>ข้อ 4 </b> สร้าง Method ชื่อว่า
+              <code>goCheckout()</code> โดยมีขั้นตอนการทำงานของ Method ดังนี้
+              <li>
+                Save <code>cart</code> ไว้ใน localStorage
+                <a
+                  href="https://www.w3schools.com/js/js_json_stringify.asp"
+                  target="blank"
+                  >(ดูวิธีแปลง Object เป็น string ที่นี่)</a
+                >
+              </li>
+              <li>
+                Redirect ไปยัง "./checkout.html"
+                <a
+                  href="https://www.w3schools.com/howto/howto_js_redirect_webpage.asp"
+                  target="blank"
+                  >ดูวิธีการ Redirect โดยใช้ Javascript ที่นี่</a
+                >
+              </li>
+            </p>
+
+            <hr />
+            <img src="./week5.gif" />
+          </section>
+        </div>
+      </div>
+
+      <!-- Navbar -->
+      <nav
+        class="navbar is-warning"
+        role="navigation"
+        aria-label="main navigation"
+      >
+        <div class="navbar-brand">
+          <a class="navbar-item">
+            <h1 class="is-size-4 has-text-weight-semibold">{{shopName}}</h1>
+          </a>
+        </div>
+
+        <div class="navbar-menu">
+          <div class="navbar-start">
+            <a href="./index.html" class="navbar-item">Shop from Vue</a>
+            <a href="./checkout.html" class="navbar-item">Checkout</a>
+          </div>
+
+          <div class="navbar-end">
+            <a class="navbar-item my-2" @click="show_modal = !show_modal">
+              <span>เปิดโจทย์</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="columns">
+        <div class="column"></div>
+
+        <!-- Column แสดงสินค้า--------------------------------------------------------->
+        <div class="column is-8 pt-6">
+          <h1 class="is-size-4 mb-4">All Products ({{products.length}})</h1>
+          <div class="container is-max-desktop">
+            <div class="is-multiline columns is-variable is-2">
+              <!-- Card element start here------------------------------------------>
+              <div
+                id="card_product"
+                class="column is-one-quarter"
+                v-for="product in products"
+              >
+                <div
+                  class="card"
+                  v-bind:class="{'has-background-warning-light':product.is_favorite}"
+                >
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img :src="product.image" alt="Placeholder image" />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">{{product.title}}</p>
+                        <p class="subtitle is-6">{{product.brand}}</p>
+                        <p class="subtitle is-6 has-text-danger">
+                          {{product.price}} ฿
+                        </p>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between">
+                      <!-- คลิกที่ดาว หาก is_favorite = true ให้แสดงดาว v1 ถ้า is_favorite = false -------- -->
+                      <div
+                        class="icon is-size-4"
+                        @click="product.is_favorite = !product.is_favorite"
+                      >
+                        <!-- star ทึบ -->
+                        <span
+                          v-if="product.is_favorite"
+                          class="icon"
+                          key="true"
+                        >
+                          <i class="fas fa-star has-text-warning"></i>
+                        </span>
+
+                        <!-- star ใส -->
+                        <span v-else class="icon" key="false">
+                          <i class="far fa-star has-text-warning"></i>
+                        </span>
+                      </div>
+
+                      <!-- >>>>>ไอคอนรูปตะกร้า <<<<<<,s----------------------------------------->
+                      <div class="icon is-size-4" @click="addToCart(product)">
+                        <i class="fas fa-shopping-cart has-text-warning"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column แสดงตะกร้า--------------------------------------------------->
+        <div class="column is-3 pt-6 pl-0 pr-5">
+          <div style="display: flex; justify-content: space-between">
+            <span class="is-size-4 mb-4">Cart ({{cart.length}})</span>
+            <a @click="cart = []" class="is-danger mb-4 button">Clear</a>
+          </div>
+
+          <!-- Card element start here ------------------------------------------>
+          <div v-for="product in cart" class="card mb-4">
+            <div class="card-content p-0">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-96x96">
+                    <img :src="product.image" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="media-content pt-2">
+                  <p class="is-5">{{product.title}}</p>
+                  <p class="has-text-grey-light is-6">{{product.brand}}</p>
+                  <div style="display: flex; justify-content: space-between">
+                    <div>
+                      <!-- ราคาสินค้า------------------------------------------------ -->
+                      <span class="is-6 has-text-danger"
+                        >{{product.price}}</span
+                      >
+                      <!-- จำนวนสินค้า----------------------------------------------- -->
+                      <span>x{{product.quantity}}</span>
+                    </div>
+                    <div>
+                      <!-- icon รูปถังขยะ------------------------------------------- -->
+                      <span
+                        class="icon mr-2"
+                        key="false"
+                        @click="removeFromCart()"
+                      >
+                        <i class="far fa-trash-alt"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 1.25rem;
+            "
+          >
+            <span class="has-text-weight-bold">Total</span>
+            <span id="totalPrice">{{Total}}</span>
+          </div>
+
+          <!-- ปุ่ม Checkout ------------------------------------------------------------ -->
+          <a
+            class="button is-warning mt-3"
+            style="width: 100%"
+            @click="goCheckout()"
+            >Checkout</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- vue script --------------------------------------->
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          shopName: "24 hours lab work",
+          products: [
+            {
+              id: 0,
+              title: "iPhone 11",
+              brand: "Apple",
+              price: 34900,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              image:
+                "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+              quantity: 0,
+            },
+            {
+              id: 1,
+              title: "Lumix GH5",
+              brand: "Panasonic",
+              price: 44900,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              quantity: 0,
+              image:
+                "https://images.unsplash.com/photo-1585459733441-9b415fed25b3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=80",
+            },
+            {
+              id: 2,
+              title: "Vintage Model Car",
+              brand: "Unknow",
+              price: 990,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              quantity: 0,
+              image:
+                "https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+            },
+            {
+              id: 3,
+              title: "Case for iPhone 11 Pro",
+              brand: "Unknow",
+              price: 590,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              quantity: 0,
+              image:
+                "https://images.unsplash.com/photo-1601593346740-925612772716?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+            },
+            {
+              id: 4,
+              title: "Air freshener",
+              brand: "Febreze",
+              price: 120,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              quantity: 0,
+              image:
+                "https://images.unsplash.com/photo-1572635196243-4dd75fbdbd7f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+            },
+            {
+              id: 5,
+              title: "Google Home",
+              brand: "Google",
+              price: 3290,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              quantity: 0,
+              image:
+                "https://images.unsplash.com/photo-1507646227500-4d389b0012be?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+            },
+            {
+              id: 6,
+              title: "VR Gaming",
+              brand: "Unknow",
+              price: 22490,
+              is_favorite: false,
+              color: ["green", "blue", "red"],
+              quantity: 0,
+              image:
+                "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=996&q=80",
+            },
+          ],
+          cart: [],
+          show_modal: false,
+          checked: false,
+          data_checkout: "",
+        },
+        methods: {
+          addToCart(val) {
+            let check = false;
+            for (let i = 0; i < this.cart.length; i++) {
+              if (val.title === this.cart[i].title) {
+                this.cart[i].quantity ++;
+                check = true;
+              }
+            }
+            if (!check && this.checked == false) {
+              val.quantity ++;
+              this.cart.push({ ...val, quantity: 1});
+            }
+            if (this.checked) {
+              val.quantity = 0;
+              val.quantity ++;
+              this.cart.push({ ...val, quantity: 1});
+              this.checked = false;
+            }
+          },
+          removeFromCart(index) {
+            this.cart.splice(index, 1);
+            this.checked = true;
+          },
+          goCheckout() {
+            let obj = this.cart;
+            const myJSON = JSON.stringify(obj);
+            localStorage.setItem("cart", myJSON);
+            location.href = "./checkout.html";
+          },
+        },
+        computed: {
+          Total() {
+            return this.cart.reduce((sum, cart) => {
+              return Number(sum) + Number(cart.price * cart.quantity);
+            }, 0);
+          },
+        },
+      });
+    </script>
+
+    <!-- other script -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"
+    ></script>
+  </body>
+</html>

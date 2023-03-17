@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic of Vue 2 - Part 1</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+
+<body>
+    <div id='app'>
+        <div class="navbar is-light p-5">
+            <b class="mr-4">WEEK 6</b>
+            <a href="./index.html" class="mr-4">Basic of VueJS 2</a>
+        </div>
+
+
+
+
+        <div class="container is-max-desktop p-5">
+            <p class="my-4 has-background-danger-light p-3">
+                ข้อไหนอ่านโจทย์แล้วเกิดข้อสงสัยหรือไม่เข้าใจตรงไหนสามารถทักถามอาจารย์หรือ TA ก่อนได้เลย
+                ไม่จำเป็นต้องรอให้ถึงคาบเรียน
+            </p>
+
+            <p class="has-background-info-light p-2">สามารถแก้ไข Vue Instance ที่อยู่ใน
+                <code>&lt;script&gt;</code> ที่อยู่ส่วนล่างของ <code>checkout.html</code> ได้เลย!!! ไม่ต้องกลัวครับ
+            </p>
+
+
+
+            <p class="my-4"><b>ข้อ 1 </b>ประกาศตัวแปรเพื่อรับค่าจากแบบฟอร์มที่มีให้ ดังนี้
+                <li><code>prename</code> ใช้รับค่าจาก select ชื่อ <code>prename</code></li>
+                <li><code>fname</code> ใช้รับค่าจาก input ชื่อ <code>fname</code></li>
+                <li><code>lname</code> ใช้รับค่าจาก input ชื่อ <code>lname</code></li>
+                <li class="mb-4"><code>score</code> ใช้รับค่าจาก input ชื่อ <code>score</code></li>
+                เมื่อทำถูกต้องแล้ว ค่าต่าง ๆ ที่พิมพ์ไปจะแสดงเป็นตัวอักษรแดง ๆ ข้างล่างฟอร์ม
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                <code>&lt;div id="ex1"&gt;</code>
+            </p>
+
+            <!-- ข้อ 1 --------------------------------------------- -->
+            <div id='ex1'>
+                <div class="columns">
+                    <div class="column is-2">
+                        <label>Prename</label><br>
+                        <div class="select">
+                            <select class="select" name="prename" v-model="prename">
+                                <option value="" selected>คำขึ้นต้น</option>
+                                <option>นาย</option>
+                                <option>นาง</option>
+                                <option>นางสาว</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label>Firstname</label>
+                        <input class="input" name="fname" v-model="fname" type="text" />
+                    </div>
+                    <div class="column">
+                        <label>Lastname</label>
+                        <input class="input" name="lname" v-model="lname" type="text" />
+                    </div>
+                    <div class="column">
+                        <label>Score</label>
+                        <input class="input" name="score" type="number" v-model="score" />
+                    </div>
+                </div>
+                <code>prename = {{ prename }}</code><br>
+                <code>fname = {{ fname }}</code><br>
+                <code>lname = {{ lname }}</code><br>
+                <code>score = {{ score }}</code><br>
+            </div>
+
+            <hr>
+
+
+
+            <p class="my-4"><b>ข้อ 2 </b> สังเกตว่าจะมีปุ่ม Add Student อยู่ปุ่มนึง และมี table ที่มี column "Name" และ
+                "Score" โดยนักศึกษาจะต้องทำให้เมื่อกดปุ่มนี้แล้ว ข้อมูลที่ถูกกรอกจากข้อ 1
+                จะต้องเพิ่มใน table ที่เห็นอยู่ โดยให้สร้าง Method ชื่อว่า addStudent() โดยมีรายละเอียดที่จะต้องทำใน
+                Method นี้ ดังนี้
+            <ul style="list-style-type:lower-alpha;margin-left: 2rem;margin-bottom: 1.25rem;">
+                <li>ตรวจสอบข้อมูลทุกช่อง หากช่องไหนยังไม่ได้กรอก ให้ขึ้น Alert ว่า "Please enter all inputs"</li>
+                <li>ตรวจสอบข้อมูลจากช่องใส่คะแนน ค่าของคะแนนจะต้องอยู่ในช่วง 0-100 หากไม่ได้อยู่ในช่วงดังกล่าว ให้ขึ้น
+                    Alert ว่า "Score is incorrect"</li>
+                <li>ถ้าข้อมูลไม่ติดเงื่อนไขข้อ a. และ ข้อ b. แล้ว ให้เพิ่มข้อมูลที่กรอกไปในตัวแปร <code>students</code>
+                    ในรูปแบบของ <b>Object</b></li>
+                <li>ข้อมูลของช่องต่าง ๆ ที่อยู่ใน ข้อ 1. จะถูกเคลียค่าเป็นค่าว่างเหมือนเดิม</li>
+            </ul>
+            แต่ยังไม่จบแค่นั้น!! นักศึกษาจะต้อง loop ข้อมูลในตัวแปร <code>student</code> มาแสดงใน table
+            และแสดงข้อมูลตามตัวอย่างที่แสดงให้ดู ส่วนปุ่ม Delete จะใช้ในข้อถัดไป
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน <code>&lt;div id="ex2"&gt;</code>
+            </p>
+
+            <!-- ข้อ 2, ข้อ 3 --------------------------------------------- -->
+            <div id='ex2'>
+
+                <!-- ปุ่ม Add Student------------------- -->
+                <a class="button is-primary" @click="addStudent">Add Student
+                </a>
+
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ตัวอย่างข้อมูล------------ -->
+                            <tr v-for="(student, index) in students">
+                                <td>{{student.prename}} {{student.fname}}</td>
+                                <td>{{student.score}}</td>
+                                <td>
+                                    <!-- ปุ่ม Delete------------------- -->
+                                    <a class="button is-danger" @click="removeStudent(index)">Delete</a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 3 </b> สร้าง Method ชื่อว่า <code>removeStudent()</code>
+                โดยจะมีหน้าที่ลบแถวของนักศึกษาที่ต้องการ โดยมีหลักการทำงานของ method ดังนี้
+                <li>รับ Parameter มา 1 ตัว คือ index ที่ได้จากการ loop</li>
+                <li class="mb-4">ลบ Object ตำแหน่งที่ index จาก Parameter ที่รับมา</li>
+                โดยเมื่อกดปุ่มลบของแถวที่ต้องการ จะทำการ call Method ดังกล่าว และแถวที่กด Delete
+                ก็จะต้องหายไปตามการทำงานของ Method
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ของปุ่ม Delete ใน <code>&lt;div id="ex2"&gt;</code>
+            </p>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 4 </b> ให้สร้าง Computed Properties ขึ้นมา 2 ตัว
+                <li>ตัวแรกมีชื่อว่า <code>sumScore</code> โดยจะมีหน้าที่รวมคะแนนจากทุกคนจากตาราง<b>ข้อที่ 2.</b>
+                    โดยอัตโนมัติ
+                </li>
+                <li class="mb-4">ตัวที่สองมีชื่อว่า <code>avarageScore</code>
+                    โดยจะมีหน้าที่หาค่าคะแนนเฉลี่ยจากตาราง<b>ข้อที่
+                        2.</b>
+                    ซึ่งสามารถนำ
+                    <code>sumScore</code> มาใช้ต่อได้เลย
+                </li>
+                และแสดงผลลัพท์ที่ได้แทนที่ค่าตัวอย่างที่ให้มา
+            </p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code
+                ใน <code>&lt;div id="ex4"&gt;</code>
+            </p>
+
+            <!-- ข้อ 4 --------------------------------------------- -->
+            <div id="ex4">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th class="is-warning">sum</th>
+                            <td>
+                                <!-- แสดงผลรวมคะแนนที่นี้ -->
+                                {{sumScore}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="is-primary">average</th>
+                            <td>
+                                <!-- แสดงค่าเฉลี่ยที่นี่ -->
+                                {{averageScore}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr>
+
+            <p class="my-4"><b>ข้อ 5 </b> ให้สร้าง <b>Watchers</b> ในการดักจับการเปลี่ยนแปลงของค่า 
+                <code>averageScore</code> และทำการบันทึกการเปลี่ยนแปลงเข้าไปในตัวแปร <code>logs</code> 
+                ในรูปแบบของ <b>Object</b> และนำข้อมูลใน <code>logs</code> มาแสดงผลในรูปของตาราง ตามตัวอย่างด้านล่าง
+                โดยมีเงื่อนไขในการแสดงผล ดังนี้
+                <ul style="list-style-type:lower-alpha;margin-left: 2rem;margin-bottom: 1.25rem;">
+                    <li>ให้ตารางการแสดงผลมีทั้งหมด 3 columns ได้แก่ <b>Average Score Change, From และ Different From Old Value</b></li>
+                    <li>ถ้าค่า <code>averageScore</code> มีค่าเพิ่มขึ้น ให้แสดงผลโดยใช้ตัวอักษรสีเขียว</li>
+                    <li>ถ้าค่า <code>averageScore</code> มีค่าลลง ให้แสดงผลโดยใช้ตัวอักษรสีแดง</li>
+                </ul>
+                </p>
+                <p class="my-4 has-background-info-light p-3">
+                    <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode และแก้ไข code ใน
+                    <code>&lt;div id="ex5"&gt;</code>
+                </p>
+
+            <!-- ข้อ 5 --------------------------------------------- -->
+            <div id="ex5">
+
+                <h1 class="is-size-4 my-5">Simple Log Table</h1>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Average Score Change</th>
+                            <th>From</th>
+                            <th>Different From Old Value</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="val in logs">
+                        <tr>
+                            <td>{{val.oldVal}}</td>
+                            <td>{{val.newVal}}</td>
+                            <td :class="[val.result > 0 ? 'has-text-success':'has-text-danger']">{{val.result > 0 ? "+" : ""}}{{val.result}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <hr>
+            <!-- ข้อ 6 --------------------------------------------- -->
+            <p><b>ข้อ 6</b> ให้ใช้ <b>Watchers</b> สำหรับการค้นหา <b>First Name และ Last Name</b> แล้วแสดงผลข้อมูลตามที่ค้นหามาได้</p>
+            <p class="my-4 has-background-info-light p-3">
+                <b>ตัวช่วย</b>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes">💡Array.prototype.includes()</a>
+            </p>
+            <div id="ex6">
+                <div class="field">
+                    <div class="columns">
+                    <div class="column">
+                    <p class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Name Search by Watchers" v-model="searching">
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </p>
+                    </div>
+                </div>
+                  </div>
+                
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>E-mail</th>
+                            <th>Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in filters"  :key="index">
+                            <td>{{item.first_name}}</td>
+                            <td>{{item.last_name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.gender}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+
+            <!-- ข้อ 7 --------------------------------------------- -->
+            <div class="ex7">
+                <b>ข้อ 7</b>
+                <p>ให้ใช้ <b>Computed</b> สำหรับการค้นหา <b>Gender</b> จากการเลือกตัวเลือกใน drop down list แล้วแสดงผลข้อมูลตามที่ค้นหามาได้</p>
+                <div style="display: flex; justify-content: flex-end;" class="my-2">
+                    <div class="control has-icons-left">
+                        <div class="select">
+                          <select v-model="genderfinder">
+                            <option value=""selected> GenderFinder </option>
+                            <option value="Male" >Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Agender">Agender</option>
+                            <option value="Bigender">Bigender</option>
+                            <option value="Genderfluid">Genderfluid</option>
+                            <option value="Non-binary">Non-binary</option>
+                          </select>
+                        </div>
+                        <span class="icon is-left">
+                            <i class="fa fa-transgender-alt"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>E-mail</th>
+                            <th>Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in sex"  :key="index">
+                            <td>{{item.first_name}}</td>
+                            <td>{{item.last_name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.gender}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- vue script ------------------------------------------- -->
+    <script src="./data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                students: [],
+                logs: [],
+                searching:'',
+                filters:dummyData,
+                dummyData:dummyData,
+                fname:'',
+                prename:'',
+                lname:'',
+                score:'',
+                genderfinder:''
+            },
+            methods : {
+                
+                addStudent(){
+                    if(this.fname == '' || this.lname == '' || this.prename==''){
+                        return alert("Please enter all inputs")
+                    }
+                    else if (this.score < 0 || this.score > 100){
+                        return alert("Score is incorrect")
+                    }
+                    else {
+                        return this.students.push({
+                            fname:this.fname,
+                            prename:this.prename,
+                            lname:this.lname,
+                            score:this.score
+                        })
+                    }
+                },
+                removeStudent(index){
+                    this.students.splice(index, 1);
+                },
+                
+            },
+            computed: {
+                sumScore(){
+                    return this.students.reduce((sum, students) => {
+                    return Number(sum) + Number(students.score)}, 0);
+                },
+                averageScore(){
+                    return this.students.length == 0 ? 0 : this.sumScore / this.students.length
+                },
+
+                sex(){
+                    if(this.genderfinder.trim().length > 0 && this.genderfinder == 'Male'){
+                        return this.dummyData.filter((val)=> val.gender.includes(this.genderfinder.trim()))
+                }else if(this.genderfinder.trim().length > 0){
+                    return this.dummyData.filter((val)=> val.gender.toLowerCase().includes(this.genderfinder.trim().toLowerCase()))
+                }
+                return this.dummyData
+                }
+            },
+            watch:{
+                averageScore: function(newVal,oldVal){
+                    let obj = {
+                        newVal:newVal,
+                        oldVal:oldVal,
+                        result:newVal-oldVal
+                    }
+                    this.logs.push(obj)
+                },
+                searching (value) {
+                    this.filters = this.dummyData
+                    var searchArray = this.filters.filter(data => {
+                        let fullname = data.first_name + " " +data.last_name
+                    return (
+                        data.first_name.toLowerCase().includes(value.toLowerCase()) ||
+                        data.last_name.toLowerCase().includes(value.toLowerCase()) ||
+                        fullname.toLowerCase().includes(value.toLowerCase()))
+                    })
+                    this.filters = searchArray
+                }
+            },
+           
+           
+    })
+    </script>
+
+
+
+
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+</body>
+
+</html>

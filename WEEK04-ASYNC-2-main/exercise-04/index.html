@@ -1,0 +1,102 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Programming - Week 4 : Exercise 04</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+  <script src="answer.js"></script>
+</head>
+
+<body>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../exercise-01/index.html">
+        <b>Web Programming | Week 4</b>
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="../exercise-03/index.html"> ข้อที่ 3 Promise</a>
+        <a class="navbar-item is-active has-background-warning-light" href="../exercise-04/index.html"> ข้อที่ 4 Async &
+          Await</a>
+      </div>
+    </div>
+    </div>
+  </nav>
+  <div class="container my-6" id="app">
+    <h3 class="title is-3 my-3"><b>EXERCISE 4 : Async & Await</b></h3>
+    <!-- 4.1 -->
+    <div class="box">
+      <p><b>4.1</b> ให้แก้ไขฟังก์ชั่น <code>getAllUser()</code> โดยมีขั้นตอนดังนี้  โดยใช้<code>async หรือ await</code>
+        <br>
+        <ul class="pl-5 mt-3">
+          <li> - ให้ใช้ Try Catch ในการดัก rejected Promise (<a href="https://itnext.io/error-handling-with-async-await-in-js-26c3f20bc06a" target="_blank">💡 Hint</a>)</li>
+          <li> - เรียกใช้ฟังก์ชัน <code>ApiDelay()</code></li>
+          <li> - หากเรียกฟังก์ชันสำเร็จให้ (status: 200) ให้นำ message แสดงในกล่องข้อความ</li>
+          <li> - หากเรียกฟังก์ชันไม่สำเร็จ (message: "SERVER ERROR") ให้นำ message แสดงในกล่องข้อความ</li>
+        </ul>
+      <br>
+      <p class="has-text-info">ตัวอย่างของการแสดงผล</p>
+      <img style="height: 80px;width: 300px;" src="./assets/ta.png">&nbsp;<img style="height: 80px;width: 300px;"  src="./assets/Error.png">
+      <br><br><br>
+      <div class="columns">
+        <div class="column is-1">
+          <button class="button is-dark" onclick="getAllUser()">
+            >: Run
+          </button>
+        </div>
+        <div class="column has-background-link-light has-text-centered">
+          <p>
+             😊<br>พี่ TA<div id="TA">-</div>ใจดีที่สุด <br>😊
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 4.2 -->
+    <div class="box">
+      <p>
+        <b>4.2</b> ให้นักศึกษาทำระบบยันยันตัวตน (ให้นำข้อ 3.3 ใน EXERCISE 3 : Promise มาประยุกต์ต่อ) โดยมีขั้นตอนดังนี้
+      </p>
+      <br>
+      <dl>
+        <li>ทำการแก้ไขฟังก์ชัน <code>checkAuth()</code> โดยให้กรอกรหัสผ่าน
+          <b>(กำหนดรหัสผ่านเป็น : In4matioN)</b> เพื่อยืนยันตัวตน​</li>
+        <li>กรณีที่<b>ผ่าน</b>ให้เข้าถึง <code>Function fetchData()</code> ให้ <code>alert()</code> แจ้งเตือนว่า "รหัสผ่านถูกต้อง" แล้วแสดงภาพดังตัวอย่าง</li>
+        <li>กรณีที่<b>ไม่ผ่าน</b> ให้ <code>alert()</code> แจ้งเตือนว่า "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง"</li>
+      </dl>
+      <br>
+      <p class="has-text-danger">หมายเหตุ 1 : ในข้อนี้ให้ทำการประยุกต์ใช้ async/await</p>
+      <p class="has-text-danger">หมายเหตุ 2 : ให้ใช้ฟังก์ชั่น fetch() ในการดึงรูปภาพจาก api มาแสดง <a href="https://dmitripavlutin.com/javascript-fetch-async-await/">Link สำหรับอ่าน</a>
+      <p class="has-text-danger">หมายเหตุ 3 : ให้ใช้ API นี้ในการดึงข้อมูลมาแสดงผล <code>https://api.thecatapi.com/v1/images/search</code></p>
+      <br>
+      <!-- ตัวอย่าง -->
+      <p class="has-text-info">ตัวอย่างของการแสดงผล</p>
+      <img width="65%" src="./assets/exercise-04-ans.gif">
+      <br><br>
+      <div class="field is-grouped" id="input">
+        <p class="control is-expanded">
+          <input class="input" type="text" placeholder="ระบุรหัสผ่านที่ใช้ในการเข้าถึง" id="password">
+        </p>
+        <p class="control">
+          <a class="button is-info" onclick="fetchData(document.getElementById('password').value)">
+            ยืนยันรหัสผ่าน
+          </a>
+        </p>
+      </div>
+      <!-- ส่วนของการแสดงผล -->
+      <img width="100%" id="cat"/>
+    </div>
+  </div>
+
+</body>
+
+</html>

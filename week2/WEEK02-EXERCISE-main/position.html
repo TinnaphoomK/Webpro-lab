@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #screen{
+            width: 1000px;
+            height: 100vh;
+            border-color: black;
+            border-style: solid;
+            border-width: thin;
+            overflow: scroll;
+            margin-top: 20px;
+        }
+        #main-page{
+            width: 1000px;
+            height: 200vh;
+            padding: 10px;
+            position: relative;
+        }
+        #sticky{
+            position: sticky;
+            top:0%;
+        }
+        #top_right{
+            position:sticky;
+            top: 0%;
+            left:1000%;
+        }
+        #bottom_right{
+            position: absolute;
+            bottom:0%;
+            right: 0%;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar is-light p-5">
+        <b class="mr-4">WEEK 2</b>
+        <a href="./html.html" class="mr-4">HTML+CSS</a>
+        <a href="./position.html" class="mr-4">HTML+CSS(2)</a>
+        <a href="./css_bulma.html" class="mr-4">Bulma</a>
+        <a href="./landing_page.html">Landing Page</a>
+    </div>
+
+    <div class="container is-max-desktop p-5">
+        <!-- ข้อ 3 Position-->
+        <p class="my-4"><b>ข้อ 3 </b> ให้นักศึกษาจัดวางตำแหน่งของรูปภาพให้ตรงตามรูปตัวอย่างด้านล่างนี้โดยใช้ HTML และ CSS โดยมีเงื่อนไขดังนี้</p>
+        <li>ให้รูป dog มีขนาด 150 x 150 pixel</li>
+        <li>ให้รูป cat มีขนาด 200 x 200 pixel</li>
+        <li>ให้รูป rattatui มีขนาด 250 x 150 pixel</li>
+        <li>เมื่อเลื่อน Scroll Mouse รูป dog และรูป cat จะต้องอยู่ในตำแหน่งเดิมตามภาพตัวอย่าง</li>
+        <img src="assets\proposition\2.1.gif" style="margin: 20px;"><br>
+        <b>วิธีทำ:</b> เปิดไฟล์นี้ในโปรแกรม vscode จากนั้นเขียน code ใน <code>&lt;div id="main-page"&gt;</code>
+        <div><b>Hint: </b>ดูเกี่ยวกับ CSS position property ที่: <a href="https://www.w3schools.com/css/css_positioning.asp">HERE</a></div>
+        <div id="screen">
+            <div id="main-page">
+                 <img  style="width:150px; height:150px;" id="sticky" src="./assets/proposition/dog.jpg">
+                
+
+            <img  style="width:200px; height:200px;" id="top_right" src="./assets/proposition/cat.jpg">
+            
+            <img  style="width:250px; height:150px; " id="bottom_right" src="./assets/proposition/rattatui.jpg">
+            
+        </div>
+    </div>
+</body>
+</html>

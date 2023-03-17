@@ -1,0 +1,158 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Programming - Week 4 : Exercise 01</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="../exercise-01/index.html">
+          <b>Web Programming | Week 4</b>
+        </a>
+
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item is-active has-background-warning-light" href="../exercise-01/index.html"> ข้อที่ 1 Event Loop</a>
+          <a class="navbar-item" href="../exercise-02/index.html"> ข้อที่ 2 Callback</a>
+
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container my-6" id="app">
+      <h3 class="title is-3 my-3"><b>EXERCISE 1 : Event Loop</b></h3>
+      <!-- 1.1 -->
+      <div class="box">
+        <p>
+          <b>1.1</b> ให้ตอบคำถามลงใน &lt;textarea&gt; 
+          ด้านล่างว่าโค้ดที่รันได้จะได้ผลลัพธ์เป็นอย่างไร 
+          จากนั้นทดลองรันโค๊ด เปรียบเทียบผลลัพธ์
+          และอธิบายการทำงาน
+        </p>
+        <textarea name="" id="" cols="30" rows="5">ข้อแรกผลลัพท์มาจากการกดเริ่มทุกตัวจากทำงานพร้อมกัน ยกเว้น 1 เพราะประกาศฟังชั่นไว้เฉยๆ ไม่ได้มีการเรียกใช้ fn และก็จากทำตามลำดับจากบนลงล่างโดยเริ่ใจากตัวที่ไม่ได้ใส่ callback คือ 4 และ 8 ที่มาจากการเรียกใช้ callback fn โดยใส่ argument เข้าไป และตามด้วยเลขอื่นๆตามลำดับเวลา ms ไว้
+ข้อสอง ก็ทำงานจากบนลงล่าง  โดยข้างบนตัว callback เวลาก็จากำงานจนครบ 1 วิจากนั้นจะลงมาที่ function ข้างล่างจนกว่า fn ข้างล่างจะเสร็จจึง จะ display hello
+ข้อสาม
+        </textarea>
+        <br>
+        <br>
+<pre>
+1   function first(){
+2     setTimeout(() => {
+3         console.log(1);
+4     }, 1000);
+5   }
+6
+7   const second = setTimeout(() => {
+8     console.log(2);
+9   }, 1500);
+10  
+11  var third = setTimeout(() => {
+12    console.log(3);
+13  }, 1000);
+14  
+15  setTimeout(() => {
+16      console.log(4)
+17  }, 0)
+18
+19  console.log(5)
+20  
+21  setTimeout(() => {
+22      console.log(5+1)    
+23  }, 2000)
+24
+25  function showLog(data) {
+26      console.log(data);
+27  }
+28  
+29  function calculator(num1, num2, callback) {
+30      var sum = num1 + num2;
+31      callback(sum)
+32  }
+33  
+34  calculator(7, 1, showLog);
+</pre>
+      <code>ให้นักศึกษาเปิด Console และกด Run เพื่อดูการแสดงผล</code>
+      <button class="button is-dark is-small" onclick="app1()">Run</button>
+      <br>
+      </div>
+      <!-- 1.2 -->
+      <div class="box">
+        <p>
+          <b>1.2</b> ให้ตอบคำถามว่าโค้ดที่รันได้จะได้ผลลัพธ์เป็นอย่างไร 
+          จากนั้นทดลองรันโค๊ด เปรียบเทียบผลลัพธ์
+          และอธิบายการทำงาน
+          <br>
+          <pre>
+1 setTimeout(() => {
+2   console.log("hello")
+3 }, 1000)
+4
+5 let max_loop = 10000000000;
+6
+7 for(let i = 0; i < max_loop; i++) {
+8   let progress = i / max_loop * 100;
+9   
+10  if(i % (max_loop/100) === 0) {
+11    console.log(progress.toFixed(0) + '%')
+12  }
+13 }
+          </pre>
+          <br>
+          <code>ให้นักศึกษาเปิด Console และกด Run เพื่อดูการแสดงผล</code>
+          <button class="button is-dark is-small" onclick="app2()">Run</button>
+        </p>
+      </div>
+      <!-- 1.3 -->
+      <div class="box">
+        <p>
+          <b>1.3</b> ให้ตอบคำถามว่าโค้ดที่รันได้จะได้ผลลัพธ์เป็นอย่างไร และอธิบายการทำงาน
+        </p>
+
+        <br>
+        <pre>
+1   function doHomework(subject, callback) {
+2       alert(`Starting my ${subject} homework.`);
+3       callback();
+4   }
+5
+6   function alertFinished(){
+7       alert('Finished my homework');
+8   }
+9
+10  doHomework("INFORMATION SYSTEMS ANALYSIS AND DESIGN", () => {
+11    doHomework("WEB PROGRAMMING", () => {
+12      doHomework("SOFTWARE ENGINEERING", () => {
+13        doHomework("ENGLISH FOR COMMUNICATION", () => {
+14          doHomework("DATABASE SYSTEM CONCEPTS", alertFinished);
+15        });
+16      });
+17    });
+18  });
+        </pre>
+        <br>
+        <code>ให้นักศึกษาเปิด Console และกด Run เพื่อดูการแสดงผล</code>
+        <button class="button is-dark is-small" onclick="app3()">Run</button>
+      </div>
+    </div>
+  </body>
+</html>

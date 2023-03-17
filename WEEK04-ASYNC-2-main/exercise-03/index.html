@@ -1,0 +1,185 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Programming - Week 4 : Exercise 03</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+  <script src="answer.js"></script>
+</head>
+
+<body>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../exercise-01/index.html">
+        <b>Web Programming | Week 4</b>
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item is-active has-background-warning-light" href="../exercise-03/index.html"> ข้อที่ 3
+          Promise</a>
+        <a class="navbar-item" href="../exercise-04/index.html"> ข้อที่ 4 Async & Await</a>
+
+      </div>
+    </div>
+    </div>
+  </nav>
+  <div class="container my-6" id="app">
+    <h3 class="title is-3 my-3"><b>EXERCISE 3 : Promise</b></h3>
+    <!-- 3.1 -->
+    <div class="box">
+      <p>
+          <b>3.1</b> ให้นักศึกษาแก้ <code>Function getDogDemo()</code>
+          <br>เมื่อกดปุ่ม Run ให้นับเวลาถอยหลัง 10 วินาที จากนั้นแสดงรูปที่สุ่มได้จาก API
+          <code>https://dog.ceo/api/breeds/image/random</code>
+      </p>
+      <br>
+      <p class="has-text-danger">หมายเหตุ: เรียกใช้ API ด้วยฟังก์ชัน <code>getAPI()</code> เท่านั้น</p>
+      <br /><br>
+      <div class="columns">
+          <div class="column is-two-fifths">
+              <button class="button is-dark" onclick="getDogDemo()">
+                  >: Run
+              </button>
+          </div>
+          <div class="column has-background-link-light	has-text-centered">
+              <!-- แก้ไขส่วนนี้เพื่อนำข้อมูลมาแสดงผล -->
+              <span class="count-down" id="dogTime">10</span>
+              <img src="" alt="" id="dogImg">
+          </div>
+      </div>
+  </div>
+  <!-- 3.2 -->
+  <div class="box">
+      <p>
+          <b>3.2</b> ให้แก้ไข <code>Function Rainbow()</code>
+          <br>เมื่อกดปุ่ม Run ตัวอักษรใน div id="rainbow" จะเปลี่ยนสี ทีละ 2 วินาที จนถึงสีสุดท้าย
+          <br/><br/>
+          <ul class="pl-5">
+            <li>- ในกรณีที่ <code>getResult()</code> return ค่า status = 'success' ให้แสดงตัวเลขเป็นสีตามที่กำหนดในแต่ละ STATE</li>
+            <li>- ในกรณีที่ <code>getResult()</code> return ค่า status = 'error' 
+              ให้แสดงชื่อ STATE (STATE 1 หรือ STATE 2 หรือ STATE 3) ในกล่องข้อความเมื่อเกิด Error และสีข้อความเป็น 'has-text-danger'</li>
+          </ul>
+      </p>
+      
+      <br /><br>
+      <div class="columns">
+          <div class="column is-two-fifths">
+              <button class="button is-dark" onclick="Rainbow()">
+                  >: Run
+              </button>
+          </div>
+          <div class="column has-background-link-light has-text-centered">
+            <p id="rainbow">RESULT HERE</p>
+          </div>
+      </div>
+  </div>
+    <!-- 3.3 -->
+    <div class="box">
+      <p><b>3.3</b> ให้นักศึกษาทดลองปรับปรุง<code>Function evenNumber(num)</code> เพื่อตรวจสอบตัวเลขที่กรอกเข้ามานั้นเป็น เลขคู่หรือไม่</p>
+      <br>
+      <dl>
+        <li>ในกรณีตัวเลขที่กรอกมานั้นเป็นเลขคู่โปรแกรมจะทำงานสำเร็จ ให้แสดงผล ดังนี้ "success : [ตัวเลขที่รับเข้ามา] is an even number"</li>
+        <li>ในกรณีตัวเลขที่กรอกมานั้นไม่ใช่เลขคู่โปรแกรมจะทำงานไม่สำเร็จ ให้แสดงผล ดังนี้ "Error : [ตัวเลขที่รับเข้ามา] is not an even number"</li>
+      </dl>
+      <br>
+      <p class="has-text-danger">หมายเหตุ 1 : ต้องมีการใช้งาน Promise</p>
+      <br>
+      <div class="columns">
+        <div class="column is-2">
+          <input id="number" class="input" type="number" placeholder="input number" value="0">
+        </div>
+        <div class="column is-2">
+          <button class="button is-dark" onclick="evenNumber(document.getElementById('number').value)">
+            >: Check
+          </button>
+        </div>
+        <div class="column has-background-link-light has-text-centered">
+          <p id="result">
+          <!-- นำข้อมูลมาแสดงผลในส่วนนี้ -->
+            แสดงผลที่นี่!
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 3.4 -->
+    <div class="box">
+      <p><b>3.4</b> นักศึกษาได้รับมอบหมายให้สร้างโปรแกรมเอาไว้สำหรับทดสอบ delay ของระบบ โดยให้แก้ไข <code>Function task(id)</code> และ <code>Function tester()</code> 
+        <br>
+      </p>
+      <br>
+      <dl>
+        <li>ในส่วนของ <code>Function task(id)</code> ให้ return Promise ที่ทำการตรวจสอบค่า delay ที่ได้จากการ Random ของแต่ละ task โดยมีเงื่อนไขดังนี้<br>
+          &nbsp; &nbsp; &nbsp;1. ถ้า task นั้นๆ มีค่า delay ที่น้อยกว่า 500ms จะมี format ในการแสดงผลดังนี้ : "task [id]: [ค่า delay]ms ... PASS!"<br>
+          &nbsp; &nbsp; &nbsp;2. ถ้า task นั้นๆ มีค่า delay ที่มากกว่า 500ms จะมี format ในการแสดงผลดังนี้ : "task [id]: [ค่า delay]ms ... NOTPASS!"
+        </li>
+        <li>เมื่อกด Run จะเรียกใช้งาน <code>Function tester()</code> เพื่อแสดงผลลัพธ์การทดสอบ task ทั้งหมด 4 task ผ่าน console</li>
+      </dl>
+      <br>
+      <p class="has-text-danger">หมายเหตุ 1 : ต้องมีการใช้งาน Promise</p>
+      <p class="has-text-danger">หมายเหตุ 2 : ลำดับของการแสดงผล ขึ้นอยู่กับค่า delay ของ task นั้นๆ <span class="has-text-primary">(hint: setTimeout())</span></p>
+      <br>
+      <p class="has-text-info">ตัวอย่างของการแสดงผล</p>
+      <img width="25%" src="./assets/ex1.jpg">&nbsp;<img width="25%"  src="./assets/ex2.jpg">
+      <br><br>
+      <div class="columns">
+        <div class="column is-4">
+          <button class="button is-dark" onclick="tester()">
+            >: Run
+          </button>
+        </div>
+        <div class="column has-background-link-light has-text-centered">
+          <p>
+            เปิด console เพื่อดูผลลัพธ์!
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 3.5 -->
+    <div class="box">
+      <p>
+        <b>3.5</b> ให้นักศึกษาทำระบบยันยันตัวตน โดยมีขั้นตอนดังนี้
+      </p>
+      <br>
+      <dl>
+        <li>ทำการแก้ไขฟังก์ชัน <code>checkAuth()</code> โดยให้กรอกรหัสผ่าน
+          <b>(กำหนดรหัสผ่านเป็น : Cisco)</b> เพื่อยืนยันตัวตน​</li>
+        <li>กรณีที่<b>ผ่าน</b>ให้เข้าถึง <code>Function fetchData()</code> ให้ <code>alert()</code> แจ้งเตือนว่า "รหัสผ่านถูกต้อง" แล้วแสดงภาพดังตัวอย่าง</li>
+        <li>กรณีที่<b>ไม่ผ่าน</b> ให้ <code>alert()</code> แจ้งเตือนว่า "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง"</li>
+      </dl>
+      <br>
+      <p class="has-text-danger">หมายเหตุ 1 : ต้องมีการใช้งาน Promise </p>
+      <p class="has-text-danger">หมายเหตุ 2 : ในตัว <code>alert()</code> ต้องมีการใช้ค่าที่ส่งมากจาก <code>resolve</code> และ <code>reject</code> </p>
+      <p class="has-text-danger">หมายเหตุ 3 : ใช้ฟังก์ชั่น getAPI ในการดึงรูปภาพจาก api มาแสดง</p>
+      <p class="has-text-danger">หมายเหตุ 4 : ให้ใช้ API นี้ในการดึงข้อมูลมาแสดงผล <code>https://api.thecatapi.com/v1/images/search</code></p>
+      <br>
+      <!-- ตัวอย่าง -->
+      <p class="has-text-info">ตัวอย่างของการแสดงผล</p>
+      <img width="65%" src="./assets/exercise-03-ans.gif">
+      <br><br>
+      <div class="field is-grouped" id="input">
+        <p class="control is-expanded">
+          <input class="input" type="text" placeholder="ระบุรหัสผ่านที่ใช้ในการเข้าถึง" id="password">
+        </p>
+        <p class="control">
+          <a class="button is-info" onclick="fetchData(document.getElementById('password').value)">
+            ยืนยันรหัสผ่าน
+          </a>
+        </p>
+      </div>
+      <!-- ส่วนของการแสดงผล -->
+      <img width="100%" id="cat"/>
+    </div>
+  </div>
+</body>
+
+</html>

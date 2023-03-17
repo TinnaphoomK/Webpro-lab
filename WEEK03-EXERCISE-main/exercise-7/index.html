@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <title>WEEK 3 - Exercise</title>
+    <style>
+      .example-gif {
+        max-width: 600px; 
+        border: 2px solid black;
+      }
+    </style>
+  </head>
+  <body>
+  <div class="navbar is-light p-5">
+        <b class="mr-4">WEEK 2</b>
+        <a href="../exercise-1/index.html" class="mr-4">Exercise 1</a>
+        <a href="../exercise-2/index.html" class="mr-4">Exercise 2</a>
+        <a href="../exercise-3/index.html" class="mr-4">Exercise 3</a>
+        <a href="" class="mr-4">Exercise DOM</a>
+    </div>
+    <!-- ============================================================ -->
+    <!-- ตัวอย่าง HTML -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <h1 class="is-size-1">WEEK 3 - Exercise DOM (Optional - ไม่มีคะแนน)</h1>
+      <hr />
+      <div class="columns">
+        <div id="product-list" class="column">
+          <h5 class="is-size-4 mb-3">รายการสินค้า</h5>
+          <div class="columns">
+            <div class="column">
+              <div class="box product">
+                <span class="title">น้ำดื่ม</span>
+                <span class="pl-2 price">10.00 ฿</span>
+              </div>
+            </div>
+            <div class="column">
+              <div class="box product">
+                <span class="title">โคล่า</span>
+                <span class="pl-2 price">15.00 ฿</span>
+              </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <div class="box product">
+                <span class="title">ชานมไข่มุก</span>
+                <span class="pl-2 price">40.00 ฿</span>
+              </div>
+            </div>
+            <div class="column">
+              <div class="box product">
+                <span class="title">ชาเขียว</span>
+                <span class="pl-2 price">30.00 ฿</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4" >
+          <h5 class="is-size-4">ตะกร้าสินค้า</h5>
+          <table id="cart" class="table is-fullwidth">
+            <thead>
+              <tr>
+                <td>สินค้า</td>
+                <td>จำนวน</td>
+                <td>ราคา</td>
+                <!-- PROBLEM 7.3 -->
+                <td>ลบ</td> 
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <!-- PROBLEM 7.4 -->
+            <tfoot>
+              <th></th>
+              <th id="total-amount">0.00</th>
+              <th id="total-price">0.00</th>
+              <th></th>
+            </tfoot>  
+          </table>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <h5 class="is-size-4"></h5>
+        </div>
+      </div>
+    </section>
+    <hr>
+
+    <!-- ============================================================ -->
+    <!-- อธิบายโจทย์ -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="columns">
+        <div class="column">
+          <p>
+            จากโค๊ด HTML ที่ให้มาด้านบน เป็น template สำหรับโปรแกรมขายของอย่างง่าย 
+            ให้เขียน javascript เพื่อให้มันทำงานได้
+          </p>
+          <br>
+
+          <h5 class="is-size-4">PROBLEM 7.1</h5>
+          <p>เมื่อคลิกที่สินค้า ให้ alert แสดงชื่อสินค้า และ ราคาสินค้า โดยให้ substring เอาสัญลักษณ์ ฿ ออกไป</p>
+          <img src="./imgs/p1.gif" class="example-gif">
+          <hr>
+
+          <h5 class="is-size-4">PROBLEM 7.2</h5>
+          <p>เมื่อคลิกที่สินค้า ให้เพิ่ม <code>&lt;tr&gt;</code> เข้าไปในตะกร้าสินค้า</p>
+          <img src="./imgs/p2.gif" class="example-gif">
+          <hr>
+
+          <h5 class="is-size-4">PROBLEM 7.3</h5>
+          <p>จาก PROBLEM 7.2 ให้เพิ่มปุ่มลบเข้าไปในแต่ละแถวด้วย</p>
+          <img src="./imgs/p3.gif" class="example-gif">
+          <hr>
+
+          <h5 class="is-size-4">PROBLEM 7.4</h5>
+          <p>ให้รวมจำนวนและราคาสินค้าในตะกร้าใน <code>&lt;tfoot&gt;</code></p>
+          <img src="./imgs/p4.gif" class="example-gif">
+        </div>
+      </div>
+    </section>
+    
+  </body>
+
+  <!-- <script>
+    // Setup Event Listener
+    for (let el of document.getElementsByClassName('product')) {
+      // el.addEventListener('click', onSelectProduct);
+      el.addEventListener('click', addProduct);
+    }
+
+    let items = [];
+    let quantity = 0;
+    let total = 0;
+    let subtotal = 0;
+
+    const cart = document.getElementById('cart');
+
+    function onSelectProduct (event) {
+      console.log(event.currentTarget)
+      console.log(event.currentTarget.childNodes)
+      // TODO: ...
+        alert(`${event.currentTarget.childNodes[1].innerHTML} ${(event.currentTarget.childNodes[3].innerHTML).substr(0, event.currentTarget.childNodes[3].innerHTML.indexOf(" "))}`);
+    }
+    
+    function addProduct (event) {
+      items.push({
+        product: `${event.currentTarget.childNodes[1].innerHTML}`,
+        price: `${(event.currentTarget.childNodes[3].innerHTML).substr(0, event.currentTarget.childNodes[3].innerHTML.indexOf(" "))}`
+      });
+      console.log(items);
+      removeAllChildNodes(cart.childNodes[3])
+
+      items.forEach(index => {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.innerHTML = `${index.product}`;
+        tr.appendChild(td);
+        const td2 = document.createElement('td');
+        td2.innerHTML = `1`;
+        tr.appendChild(td2);
+        const td3 = document.createElement('td');
+        td3.innerHTML = `${(event.currentTarget.childNodes[3].innerHTML).substr(0, event.currentTarget.childNodes[3].innerHTML.indexOf(" "))}`;
+        tr.appendChild(td3);
+        const td4 = document.createElement('td');
+        td4.innerHTML = `<button onclick="removeItem(${items.length})">DEL</button>`;
+        tr.appendChild(td4);
+        
+        cart.childNodes[3].appendChild(tr);
+      });
+    }
+
+    function removeAllChildNodes(parent) {
+      while (parent.firstChild) {
+          parent.removeChild(parent.firstChild);
+      }
+    }
+  </script> -->
+
+  <script>
+    // Setup Event Listener
+    for (let el of document.getElementsByClassName('product')) {
+      el.addEventListener('click', onSelectProduct)
+    }
+  
+    var cart = [];
+  
+    function deleteProduct(index) {
+      if(cart[index].amount == 1){
+        cart.splice(index, 1);
+        document.getElementById("cart").childNodes[3].innerHTML = ""
+        for (i in cart) {
+          document.getElementById("cart").childNodes[3].innerHTML += `<tr><td>${cart[i].name}</td><td>${cart[i].amount}</td><td>${cart[i].price}</td><td><button onclick="deleteProduct(${i});">DEL</button></td></tr>`
+        }
+  
+        total()
+      } else {
+        cart[index].amount -= 1;
+
+        document.getElementById("cart").childNodes[3].innerHTML = ""
+        for (i in cart) {
+          document.getElementById("cart").childNodes[3].innerHTML += `<tr><td>${cart[i].name}</td><td>${cart[i].amount}</td><td>${cart[i].price}</td><td><button onclick="deleteProduct(${i});">DEL</button></td></tr>`
+        }
+        total()
+
+      }
+    }
+  
+    function total() {
+      let sumamount = 0;
+      let sumprice = 0;
+      for (i in cart) {
+        sumamount += parseInt(cart[i].amount)
+        sumprice += parseInt(cart[i].amount) * parseInt(cart[i].price)
+      }
+      document.getElementById("total-amount").innerText = sumamount.toString() + ".00"
+      document.getElementById("total-price").innerText = sumprice.toString() + ".00"
+    }
+  
+    function onSelectProduct(event) {
+      const name = event.currentTarget.childNodes[1].innerHTML
+      const price = event.currentTarget.childNodes[3].innerHTML
+  
+  
+      let checkloop = false;
+      for (i in cart) {
+        if (cart[i].name === name) {
+          cart[i].amount += 1
+          checkloop = true;
+        }
+      }
+      if (!checkloop) {
+        cart.push({ name: name, amount: 1, price: price })
+      }
+  
+  
+      document.getElementById("cart").childNodes[3].innerHTML = ""
+  
+      //alert(`${name} ${price}`)
+  
+      // for (i in cart) {
+      //   document.getElementById("cart").childNodes[3].innerHTML += `<tr><td>${cart[i].name}</td><td>${cart[i].amount}</td><td>${cart[i].price}</td></tr>`
+      // }
+  
+      // for (i in cart) {
+      //   document.getElementById("cart").childNodes[3].innerHTML += `<tr><td>${cart[i].name}</td><td>${cart[i].amount}</td><td>${cart[i].price}</td><td><button onclick="deleteProduct(${i});">DEL</button></td></tr>`
+      // }
+  
+      for (i in cart) {
+        document.getElementById("cart").childNodes[3].innerHTML += `<tr><td>${cart[i].name}</td><td>${cart[i].amount}</td><td>${cart[i].price}</td><td><button onclick="deleteProduct(${i});">DEL</button></td></tr>`
+      }
+  
+  
+      total()
+  
+      // TODO: ...
+    }
+  </script>
+  
+</html>

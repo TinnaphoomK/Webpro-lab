@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>WebPro Shop</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item">
+                    <h1 class="is-size-4 has-text-weight-semibold">{{shopName}}</h1>
+                </a>
+            </div>
+
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item my-2" @click="show_modal = !show_modal">
+                        <span>เปิดโจทย์</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="columns" >
+            <div class="column"></div>
+
+            <!-- Column แสดงสินค้า--------------------------------------------------------->
+            <div class="column is-8 pt-6">
+                <h1 class="is-size-4 mb-4">All Products ({{products.length}})</h1>
+                <div class="container is-max-desktop">
+                    <div class="is-multiline columns is-variable is-2">
+
+                        <!-- Card element start here------------------------------------------>
+                        <div id="card_product" class="column is-one-quarter" v-for="product in products">
+                            <div class="card" :class="{'has-background-warning-light': product.is_favorite}">
+                                <div class="card-image">
+                                    <figure class="image is-1by1">
+                                        <img :src="product.image"
+                                            alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p id="title" class="title is-4">{{product.title}}</p>
+                                            <p id="brand" class="subtitle is-6">{{product.brand}}</p>
+                                            <p class="subtitle is-6 has-text-danger">{{product.price}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex;justify-content: space-between;">
+
+                                        <!-- คลิกที่ดาว หาก is_favorite = true ให้แสดงดาว v1 ถ้า is_favorite = false ---------->
+                                        <div class="icon is-size-4">
+
+                                            <!-- star ทึบ -->
+                                            <span class="icon" key="true" v-if="product.is_favorite == true" @click="product.is_favorite = false">
+                                                <i class="fas fa-star has-text-warning"></i>
+                                            </span>
+
+                                            <!-- star ใส -->
+                                            <span key="false" v-else @click="product.is_favorite = true">
+                                                <i class="far fa-star has-text-warning"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <!-- ไอคอนรูปตะกร้า -->
+                                        <div v-if="product.is_favorite == false">
+                                        <div class="icon is-size-4" @click="addsum(product)">
+                                            <i class="fas fa-shopping-cart has-text-warning"></i>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Column แสดงตะกร้า--------------------------------------------------->
+            <div class="column is-3 pt-6 pl-0 pr-5">
+                <div style="display: flex;justify-content: space-between;">
+                    <span class="is-size-4 mb-4">Cart ({{cart.length}})</span>
+                    <a class="is-danger mb-4 button" @click="cart = []">Clear</a>
+                </div>
+
+                <!-- Card element start here------------------------------------------>
+                <div class="card mb-4" v-for="addeditem in cart">
+                    <div class="card-content p-0">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-96x96">
+                                    <img :src="addeditem.image"
+                                        alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content pt-2">
+                                <p class="is-5">{{addeditem.title}} x {{addeditem.amount}}</p>
+                                <p class="has-text-grey-light is-6">{{addeditem.brand}}</p>
+                                <p class="is-6 has-text-danger">{{addeditem.price * addeditem.amount}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- โจทย์ ------------------------------------------------------------------>
+        <div class="modal" v-bind:class="{'is-active':show_modal}">
+            <div class="modal-background" @click="show_modal = !show_modal"></div>
+            <div class="modal-card" style="max-width: 960px;width: 90%;">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">โจทย์</p>
+                    <button @click="show_modal = !show_modal" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p class="notification is-info">
+                        <b>ให้แก้ไข code ในไฟล์ <code>ex2/main.js</code> และ <code>ex2/index.html</code></b>
+                    </p>
+                    <p class="my-4"><b>ข้อ 1 </b> เปลี่ยนชื่อร้านที่อยู่ใน Navbar เป็นชื่อเล่นของตัวเอง
+                    </p>
+                    <hr>
+                    <p class="my-4"><b>ข้อ 2 </b> แสดงข้อมูลของ <code>products</code> ให้ออกมาในรูปแบบของ Card
+                        โดยจะมีตัวอย่าง Card มาให้ (<code>&lt;div id="card_product"&gt;</code>) และหลังข้อความว่า "All
+                        Products ()"
+                        ในวงเล็บให้แสดงจำนวนสินค้าทั้งหมดด้วย
+                    </p>
+                    <hr>
+                    <p class="mt-4"><b>ข้อ 3 </b> ในแต่ละ card จะมีไอคอนดาวอยู่สองแบบ จะขอเรียกว่า ดาวทึบ
+                        (<i class="fas fa-star has-text-warning"></i>) กับดาวใส (<i
+                            class="far fa-star has-text-warning"></i>)
+                        ละกัน โดยไอคอนดาวจะแสดงตามสถานะของ <code>is_favorite</code> ของสินค้าแต่ละชิ้น
+                        <li class="mt-2">แสดง ดาวทึบ (<i class="fas fa-star has-text-warning"></i>) เมื่อ
+                            <code>is_favorite = true</code>
+                        </li>
+                        <li class="mb-2">แสดง ดาวใส (<i class="far fa-star has-text-warning"></i>) เมื่อ
+                            <code>is_favorite = false</code>
+                        </li>
+                        และเมื่อคลิกที่ไอคอนดาวที่แสดงอยู่ สถานะของ <code>is_favorite</code> ของสินค้าชิ้นนั้นจะสลับกัน
+                        จาก <code>true</code> เป็น <code>false</code> จาก <code>false</code> เป็น <code>true</code>
+                        แน่นอนว่าไอคอนดาวก็จะเปลี่ยนด้วย
+                    </p>
+                    <hr>
+                    <p class="my-4"><b>ข้อ 4 </b> เมื่อสถานะของ <code>is_favorite = true</code> ให้พื้นหลังของ card นั้น
+                        ๆ
+                        เปลี่ยนเป็นสี <b>warning-light</b> ด้วย<br>
+                    </p>
+                    <hr>
+                    <p class="my-4"><b>ข้อ 5 </b> แต่ละ Card จะมีไอคอนรูปตะกร้าสินค้ามาให้ด้วย(มุมขวาล่าง)
+                        โดยเมื่อกดที่ไอคอนดังกล่าว Object ของสินค้าจะถูกเพิ่มเข้ามาใน Array <code>cart</code>
+                        และในส่วนของ Cart ด้านขวามือ ก็จะต้องแสดงรายการสินค้าที่ถูกเพิ่มมาใน Cart ด้วย
+                        รวมไปถึงจำนวนของรายการสินค้าในตะกร้า โดยจะแสดงอยู่ในวงเล็บของคำว่า "Cart ()" และเมื่อกดปุ่ม
+                        Clear รายการสินค้าที่อยู่ในตะกร้าก็จะต้องหายไป
+                    </p>
+                    <hr>
+                    <figure class="image is-16by9">
+                        <img src="./result (2).gif">
+                      </figure>
+
+                </section>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- script -->
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./main.js">
+    </script>
+</body>
+
+</html>

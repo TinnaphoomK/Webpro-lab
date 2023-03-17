@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <title>WEEK 3 - Exercise</title>
+    <style>
+      .markdown h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .markdown h2 {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+      .markdown ol > li {
+        margin-left: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar is-light p-5">
+      <b class="mr-4">WEEK 2</b>
+      <a href="../exercise-4/index.html" class="mr-4">Exercise 4</a>
+      <a href="../exercise-5/index.html" class="mr-4">Exercise 5</a>
+      <a href="" class="mr-4">Exercise 6</a>
+  </div>
+    <section class="section" id="app" >
+        <h1 class="is-size-1">{{ title }}</h1>
+        <hr />
+
+        <template v-for="(problem, idx) in problems">
+          <div class="columns" :key="problem.title">
+            <div class="exercise column">
+              <h5 class="is-size-4">{{ problem.title }}</h5>
+              <div v-if="problem.html" v-html="problem.html"></div>
+              <div v-if="problem.body" class="markdown" v-html="markdownToHtml(problem.body)"></div>
+              <br>
+
+              <details>
+                <summary>โค๊ด (จาก answers.js)</summary>
+                <textarea 
+                  disabled 
+                  class="textarea" 
+                  rows="6"
+                  :value="problem.run.toString()"
+                ></textarea>
+              </details>
+              <br>
+              <button class="button" @click="run(problem)">Run</button>
+            </div>
+            <div class="answer column">
+              <h5 class="is-size-4">CHECK</h5>
+              <img v-if="problem.expect_img" :src="problem.expect_img">
+
+              <table v-if="problem.testcases" class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Input</th>
+                    <th>Expect</th>
+                    <th>Result</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="testcase, idx in problem.testcases"
+                    :key="'t-'+idx"
+                  >
+                    <td @click="log($event, testcase.input)" title="คลิกเพื่อปริ้นไปที่ console">                     
+                      <pre v-if="testcase.input !== 'NO_INPUT'">{{ prettyJson(testcase.input) }}</pre>
+                      <pre v-else>N/A</pre>
+                    </td>
+                    <td @click="log($event, testcase.expect)"  title="คลิกเพื่อปริ้นไปที่ console">
+                      <pre>{{ prettyJson(testcase.expect) }}</pre>
+                    </td>
+                    <td
+                      title="คลิกเพื่อปริ้นไปที่ console"
+                      @click="log($event, testcase.result)"
+                    >
+                      <pre v-if="testcase.result === '__PASS__'" class="has-text-success">PASS</pre>
+                      <pre v-if="testcase.result === '__FAIL__'" class="has-text-danger">FAIL</pre>
+                      <pre 
+                        v-if="testcase.result !== null && testcase.result !== '__PASS__' && testcase.result !== '__FAIL__'"
+                        :class="{
+                          'has-text-success': isEqual(testcase.expect, testcase.result),
+                          'has-text-danger': testcase.result !== null && !isEqual(testcase.expect, testcase.result)
+                        }"
+                      >{{ prettyJson(testcase.result) }}</pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr />
+        </template>
+      </div>
+
+    </section>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./test.js"></script>
+    <script src="./answers.js"></script>
+    <script src="./problems.js"></script>
+  </body>
+</html>
