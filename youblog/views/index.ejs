@@ -1,3 +1,4 @@
+<%- include('header') -%>
 <body>
     <div class="container my-6">
       <div class="columns">
@@ -23,25 +24,28 @@
       </div>
       <!--  -->
       <div class="columns">
-        <div class="column is-3">
-          <a href="#">
-            <div class="card" style="height: 100%">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img src="https://bulma.io/images/placeholders/1280x960.png" />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <p class="title is-4">Title</p>
-                    <p class="subtitle is-6">by Author</p>
+        <% article.forEach(function(data, i, arr){ -%>
+          <div class="column is-3">
+            <a href="<%= data.id %>">
+              <div class="card" style="height: 100%" >
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img src="/image/<%= article[i].feature_image %>"/>
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-4"><%= article[i].title %></p>
+                      <p class="subtitle is-6"><%= article[i].author %></p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
-        </div>
+            </a>
+          </div>
+        <% }); -%>
+        
       </div>
     </div>
   </body>
