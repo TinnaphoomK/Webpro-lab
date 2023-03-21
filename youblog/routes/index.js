@@ -1,13 +1,10 @@
 const express = require('express')
 const router = express.Router()
-
 var article = require('../article-db')
 
 router.get('/', function(req, res, next) {
     var data = { title: 'Express', article: article }
-    console.log(data)
     res.render('index', data)
-
 })
 
 router.get('/:id', function(req, res, next) {
@@ -15,18 +12,14 @@ router.get('/:id', function(req, res, next) {
     res.render('detail', data)
 })
 
-router.get('/', function(req, res, next) {
-    var seacrhFilter = req,query,serach;
-    if (searchFilter){
-        var getarticle = article.filter(function (article){
-            return (
-                article.tile
-            )
-        })
-    }
-})
+router.get('/blogapi', (req, res) => {
+    res.json(article)
+  })
+  
+  // กำหนดให้ path blogapi/id แสดงข้อมูลบทความตาม id ที่กำหนด
+  
+  router.get('/blogapi/:id', (req, res) => {
+    res.render('detail', article.find(article => article.id === req.params.id))
+  })
 
-
-
- 
 module.exports = router
