@@ -1,27 +1,20 @@
 <%- include('header') -%>
-<body>
-    <div class="container my-6">
-      <div class="columns">
-        <div class="column is-11">
-          <div class="field">
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                name="search"
-                placeholder="ค้นหาบทความ..."
-              />
-            </div>
-          </div>
-        </div>
-        <div class="column is-1">
-          <input
-            type="submit"
-            class="button is-info is-fullwidth"
-            value="ค้นหา"
-          />
-        </div>
-      </div>
+    <body>
+        <div class="container my-6">
+            <form action="" method="GET">
+                <div class="columns">
+                    <div class="column is-11">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" name="search" placeholder="ค้นหาบทความ..." />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-1">
+                        <input type="submit" class="button is-info is-fullwidth" value="ค้นหา" />
+                    </div>
+                </div>
+            </form>
       <!--  -->
       <div class="columns">
         <% article.forEach(function(data, i, arr){ -%>

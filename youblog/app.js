@@ -12,10 +12,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Config Router
 const indexRouter = require('./routes/index')
-const blogRouter = require('./routes/blog')
+
 
 app.use('/', indexRouter)
-app.use('/blog', blogRouter)
 
 app.listen(3000, () => {
   console.log('Start server at port 3000.')
