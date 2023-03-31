@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/all.css" rel="stylesheet" />
+    <link href="/css/bulma.css" rel="stylesheet" />
+    <script src="/js/all.js"></script>
+    <title>Create New Blog</title>
+  </head>
+  <body>
+    <section class="hero">
+      <div class="hero-body ml-5">
+        <p class="title">Create a New Blog</p>
+      </div>
+    </section>
+    <section class="container">
+        <div class="content">
+            <!-- <form action="/blogs/" enctype="multipart/form-data" method="POST">  -->
+              <form action="/blogs" method="POST" enctype="multipart/form-data"n>
+              <div class="field">
+                <label class="label">Title</label>
+                <input class="input" type="text" name="title" placeholder="Blog title" value="">
+                <p class="help is-danger">*Required</p>
+              </div>
+              <div class="field">
+                <label class="label">Content</label>
+                <div class="control">
+                  <textarea class="textarea" placeholder="Textarea" name="content"></textarea>
+                  <p class="help is-danger">*Required</p>
+                </div>
+              </div>
+              <div id="file-js-example" class="file has-name">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="myImage">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a file…
+                    </span>
+                  </span>
+                  <span class="file-name">
+                    No file uploaded
+                  </span>
+                </label>
+              </div>
+              <div class="field">
+                <label class="label">Status</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="status">
+                      <option value="01">Drafted</option>
+                      <option value="02">Published</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox" name="pinned">
+                    Pin this blog?
+                  </label>
+                </div>
+              </div>
+              <!-- <div class="file">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="blog_image">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose an image…
+                    </span>
+                  </span>
+                </label>
+              </div> -->
+              <div class="field is-grouped mt-3">
+                <div class="control">
+                  <input type="submit" class="button is-link" value="submit">
+                </div>
+                <div class="control">
+                  <button class="button is-link is-light" onclick="window.location.replace='/'">Back to home</button>
+                </div>
+              </div>
+            </form>
+        </div>
+    </section>
+  </body>
+  <script>
+    const fileInput = document.querySelector('#file-js-example input[type=file]');
+    fileInput.onchange = () => {
+      if (fileInput.files.length > 0) {
+        const fileName = document.querySelector('#file-js-example .file-name');
+        fileName.textContent = fileInput.files[0].name;
+      }
+    }
+  </script>
+</html>

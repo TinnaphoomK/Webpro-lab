@@ -5,7 +5,7 @@ router = express.Router();
 
 router.get("/", async function (req, res, next) {
   try {
-   
+   console.log("123");
    let query = `SELECT a.*, b.file_path FROM blogs AS a LEFT JOIN 
    (SELECT * FROM images WHERE main=1) AS b ON a.id = b.blog_id`
    let params = []
@@ -23,5 +23,7 @@ router.get("/", async function (req, res, next) {
     return next(err)
   }
 });
+
+
 
 exports.router = router;

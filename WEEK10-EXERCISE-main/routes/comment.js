@@ -1,24 +1,54 @@
 const express = require("express");
 const pool = require("../config");
+const path = require("path")
 const router = express.Router();
 
-// Get comment
+
+// Require multer for file upload
+const multer = require('multer')
+// SET STORAGE
+var storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './static/uploads')
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({ storage: storage })
+
 router.get('/:blogId/comments', function(req, res, next){
 });
 
+
 // Create new comment
-router.post('/:blogId/comments', async function(req, res, next){
-    try{
-    const [id] = await pool.query("select max(id)+1`nextId` from comments")
-    const [rows, fields] = await pool.query("INSERT INTO comments (blog_id, comment, comments.like, comment_by_id) VALUES (?, ?, ?, ?);", [
-        req.params.blogId, req.body.comment, req.body.like, req.comment_by_id]);
-    // return json ของรายการ blogs
-    return res.json({message:"A new comment is added (ID: " +rows.insertId + ')'});
-  } catch (err) {
-    console.log(err)
-    return next(err);
-  }
+router.post('/:blogId/comments', upload.single('myImage'), async function(req, res, next){
+    const conn = await pool.getConnection()
+    // Begin transaction
+    await conn.beginTransaction();
+    const file = req.file;
+    const comment = req.body.comment;
+    try {
+      let results = await conn.query("INSERT INTO comments (blog_id, comment, comments.like, comment_by_id) VALUES (?, ?, ?, ?);", [
+        req.params.blogId, comment, 0, null
+      ]);
+      const Id = results[0].insertId;
+      if(file){
+        await conn.query(
+          "INSERT INTO images(blog_id, file_path, comment_id) VALUES(?, ?, ?);",
+          [req.params.blogId, file.path.substr(6), Id])
+      }
+      await conn.commit()
+      res.redirect(`/blogs/${req.params.blogId}`);
+    } catch (err) {
+      await conn.rollback();
+      next(err);
+    } finally {
+      console.log('finally')
+      conn.release();
+    }
 });
+
 
 // Update comment
 router.put('/comments/:commentId', async function(req, res, next){
@@ -53,7 +83,7 @@ router.delete('/comments/:commentId', async function(req, res, next){
       }
 });
 
-// Delete comment
+
 router.put('/comments/addlike/:commentId',async function(req, res, next){
     try{
         const [bog] = await pool.query("select blog_id from comments where id=?;",[
@@ -71,6 +101,8 @@ router.put('/comments/addlike/:commentId',async function(req, res, next){
             blogId:bog[0].blog_id,
             commentId:req.params.commentId,
             likenum:lik[0].like +1
+        
+        
         });
     
       } catch (err) {
