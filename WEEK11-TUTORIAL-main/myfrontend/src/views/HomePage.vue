@@ -80,7 +80,7 @@
     created() {
       axios.get("http://localhost:3000/", { params: { search: this.search } })
         .then((response) => {
-          this.blogs = response.data.blogs
+          this.blogs = response.data;
         })
         .catch((err) => {
           console.log(err);
