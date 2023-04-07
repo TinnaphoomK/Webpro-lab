@@ -37,8 +37,9 @@
                   <div class="content">{{ blog.content }}</div>
                 </div>
                 <footer class="card-footer">
-                  <router-link :to="{ name: 'BlogDetail', params: { id: blog.id } }" class="card-footer-item">Read
+                  <router-link :to="`/blog/${blog.id}`" class="card-footer-item">Read
                     more...</router-link>
+                    \
                   <a class="card-footer-item" @click="addLike(blog)">
                     <span class="icon-text">
                       <span class="icon">

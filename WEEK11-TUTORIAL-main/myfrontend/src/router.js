@@ -15,10 +15,10 @@ const routes = [
     component: () => import("./views/blogs/CreateBlog.vue"), // set create blog as path '/blog/create'
   },
   {
-    path: "/detail/:id",
+    path: "/blog/:id",
     name: "Blog detail",
     component: () => import("./views/blogs/BlogDetail.vue"), // set blog detail as path '/detail/:id'
-  }
+  },
 ];
 
 const router = new VueRouter({

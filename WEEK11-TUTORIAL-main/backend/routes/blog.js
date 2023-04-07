@@ -61,7 +61,7 @@ router.post("/blogs", upload.single('blog_image'), async function (req, res, nex
     const title = req.body.title;
     const content = req.body.content;
     const status = req.body.status;
-    const pinned = req.body.pinned;
+    const pinned = req.body.pinned ? 1 : 0;
 
     const conn = await pool.getConnection()
     // Begin transaction

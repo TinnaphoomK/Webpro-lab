@@ -1,8 +1,8 @@
 const express = require("express");
-const pool = require("../config");
 const path = require("path")
-const router = express.Router();
+const pool = require("../config")
 
+const router = express.Router();
 
 // Require multer for file upload
 const multer = require('multer')
@@ -17,98 +17,53 @@ var storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
+// Get comment
 router.get('/:blogId/comments', function(req, res, next){
 });
+// Create comment
+router.post('/:blogId/comments', upload.single('comment_image'), async function (req, res, next) {
+  const comment = req.body
+  const blog_id = req.params.blogId
+
+  try {
+      console.log(blog_id)
+      const file = req.file;
+
+      const [rows, fields] = await pool.query(
+          'INSERT INTO comments(comment, blog_id) VALUES (?, ?)',
+          [comment.comment, blog_id]
+      )
+      console.log("save comment");
 
 
-// Create new comment
-router.post('/:blogId/comments', upload.single('myImage'), async function(req, res, next){
-    const conn = await pool.getConnection()
-    // Begin transaction
-    await conn.beginTransaction();
-    const file = req.file;
-    const comment = req.body.comment;
-    try {
-      let results = await conn.query("INSERT INTO comments (blog_id, comment, comments.like, comment_by_id) VALUES (?, ?, ?, ?);", [
-        req.params.blogId, comment, 0, null
-      ]);
-      const Id = results[0].insertId;
+        
       if(file){
-        await conn.query(
-          "INSERT INTO images(blog_id, file_path, comment_id) VALUES(?, ?, ?);",
-          [req.params.blogId, file.path.substr(6), Id])
+        const [rows2, fields2] = await pool.query('INSERT INTO images(`blog_id`, comment_id, file_path, upload_date) VALUES(?, ?, ?, CURRENT_TIMESTAMP);',
+            [blog_id, rows.insertId, file.path.substr(6)]
+        )
+        console.log("save file");
       }
-      await conn.commit()
-      res.redirect(`/blogs/${req.params.blogId}`);
-    } catch (err) {
-      await conn.rollback();
-      next(err);
-    } finally {
-      console.log('finally')
-      conn.release();
-    }
+    res.send("success!");
+
+  } catch (err) {
+      console.log(err)
+      return next(err);
+  }
 });
 
-
 // Update comment
-router.put('/comments/:commentId', async function(req, res, next){
-    try{
-        const [rows, fields] = await pool.query("update comments set blog_id = ?, comment = ?, comments.like = ?, comment_by_id = ?, comment_date = ? where id = ?;", [
-            req.body.blog_id, req.body.comment, req.body.like, req.body.comment_by_id, req.body.comment_date, req.params.commentId
-        ]);
-        // return json ของรายการ blogs
-        return res.json({
-            message:"Comment ID "+req.params.commentId+" is updated",
-            comment:req.body
-        });
-    
-      } catch (err) {
-        console.log(err)
-        return next(err);
-      }
+router.put('/comments/:commentId', function(req, res, next){
+    return
 });
 
 // Delete comment
-router.delete('/comments/:commentId', async function(req, res, next){
-    try{
-        const [rows, fields] = await pool.query("delete from comments where id =?;", [
-            req.params.commentId
-        ]);
-        // return json ของรายการ blogs
-        return res.json({message:"Comment ID " +req.params.commentId + ' is deleted.'});
-    
-      } catch (err) {
-        console.log(err)
-        return next(err);
-      }
+router.delete('/comments/:commentId', function(req, res, next){
+    return
 });
 
-
-router.put('/comments/addlike/:commentId',async function(req, res, next){
-    try{
-        const [bog] = await pool.query("select blog_id from comments where id=?;",[
-            req.params.commentId
-        ])
-        const [lik] = await pool.query("select comments.like from comments where id=?;",[
-            req.params.commentId
-        ])
-
-        const [rows, fields] = await pool.query("update comments set comments.like = comments.like +  1 where id = ?;", [
-            req.params.commentId
-        ]);
-        // return json ของรายการ blogs
-        return res.json({
-            blogId:bog[0].blog_id,
-            commentId:req.params.commentId,
-            likenum:lik[0].like +1
-        
-        
-        });
-    
-      } catch (err) {
-        console.log(err)
-        return next(err);
-      }
+// Delete comment
+router.put('/comments/addlike/:commentId', function(req, res, next){
+    return
 });
 
 

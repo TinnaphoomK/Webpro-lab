@@ -37,9 +37,8 @@
                                 <article class="media">
                                     <div class="media-left">
                                         <figure class="image is-64x64">
-                                            <img :src="comment.file_path ? 'http://localhost:3000' + comment.file_path : 
-                                            'https://bulma.io/images/placeholders/640x360.png'"
-                                                alt="Image">
+                                            <img :src="comment.file_path ? 'http://localhost:3000' + comment.file_path :
+                                                'https://bulma.io/images/placeholders/640x360.png'" alt="Image">
                                         </figure>
                                     </div>
                                     <div class="media-content">
@@ -106,7 +105,11 @@ import axios from "axios";
 export default {
     data() {
         return {
-            data: null,
+            data: {
+                blog: {},
+                comment: {},
+                images: {},
+            },
             error: null,
             comment: null,
             file: null,
@@ -115,28 +118,32 @@ export default {
     },
     methods: {
         handleFileUpload() {
+
+            console.log(this.$refs.file.files[0])
+
             this.file = this.$refs.file.files[0];
-            this.filename = this.$refs.file.files[0].name
         },
-        submit() {
-            if(!this.file && !this.comment){
-                alert("please fill this out!!")
-            }
-            else{
-                var formData = new FormData();
-                formData.append("blog_image", this.file);
-                formData.append("comment", this.comment)
-                axios.post(`http://localhost:3000/${this.$route.params.id}/comments`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then((response) => {
-                    console.log(this.data.comments =  response.data.comments)
-                    this.comment = null
-                }).catch(error => {
-                    console.log(error.message);
-                });
-            }
+        fetch() {
+            axios.get(`http://localhost:3000/blogs/${this.$route.params.id}`)
+                .then((response) => {
+                    this.data = response.data
+                    console.log(this.data);
+                })
+                .catch((err) => {
+                    this.error = err
+                    console.log(err);
+                })
+        },
+        async submit() {
+            var formData = new FormData();
+            formData.append("comment_image", this.file);
+            formData.append("comment", this.comment)
+            await axios.post(`http://localhost:3000/${this.$route.params.id}/comments`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            this.fetch();
         }
     },
     created() {
