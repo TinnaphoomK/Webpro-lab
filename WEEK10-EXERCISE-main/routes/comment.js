@@ -41,6 +41,7 @@ router.post('/:blogId/comments', upload.single('comment_image'), async function 
         const [rows2, fields2] = await pool.query('INSERT INTO images(`blog_id`, comment_id, file_path, upload_date) VALUES(?, ?, ?, CURRENT_TIMESTAMP);',
             [blog_id, rows.insertId, file.path.substr(6)]
         )
+        console.log(file.path)
         console.log("save file");
       }
     res.send("success!");

@@ -22,30 +22,36 @@ router.get('/:blogId/comments', function(req, res, next){
 
 
 // Create new comment
-router.post('/:blodId/comments', upload.single('comment_image'), async function (req, res, next) {
+router.post('/:blogId/comments', upload.single('comment_image'), async function (req, res, next) {
     const comment = req.body
-    const blog_id = req.params.id
-
-    console.log(req.params.id);
+    const blog_id = req.params.blogId
+  
     try {
-
+        console.log(blog_id)
         const file = req.file;
-        console.log(file);
-
+  
         const [rows, fields] = await pool.query(
             'INSERT INTO comments(comment, blog_id) VALUES (?, ?)',
             [comment.comment, blog_id]
         )
-        const [rows2, fields2] = await pool.query('INSERT INTO images(blog_id, comment_id, file_path, upload_date) VALUES(?, ?, ?, CURRENT_TIMESTAMP);',
-            [req.params.id, rows.insertId, file.path.substr(6)]
-        )
-
-        res.redirect(`/blogs/${req.params.id}`)
+        console.log("save comment");
+  
+  
+          
+        if(file){
+          const [rows2, fields2] = await pool.query('INSERT INTO images(`blog_id`, comment_id, file_path, upload_date) VALUES(?, ?, ?, CURRENT_TIMESTAMP);',
+              [blog_id, rows.insertId, file.path.substr(6)]
+          )
+          console.log(file.path)
+          console.log("save file");
+        }
+      res.send("success!");
+  
     } catch (err) {
         console.log(err)
         return next(err);
     }
-});
+  });
 
 
 // Update comment
