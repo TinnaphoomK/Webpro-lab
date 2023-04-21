@@ -72,6 +72,9 @@ router.delete('/comments/:commentId', isLoggedIn, commentOwner, async function (
 });
 
 // Add Like comment
+
+
+
 router.put('/comments/addlike/:commentId', async function (req, res, next) {
     const conn = await pool.getConnection()
     await conn.beginTransaction();
