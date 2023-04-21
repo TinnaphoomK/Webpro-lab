@@ -99,6 +99,7 @@ export default {
       statusBlog: "01",
     };
   },
+  props : ['user'],
   methods: {
     selectImages(event) {
       this.images = event.target.files;
@@ -118,7 +119,7 @@ export default {
       formData.append("content", this.contentBlog);
       formData.append("pinned", this.pinnedBlog ? 1 : 0);
       formData.append("status", "01");
-      this.images.forEach((image) => {
+      Array.from(this.images).forEach((image) => {
         formData.append("myImage", image);
       });
 
