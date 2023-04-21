@@ -100,6 +100,7 @@
                     <div class="level-right">
                       <div class="level-item">
                         <button
+                          v-if="isCommentOwner (comment)" 
                           @click="editToggle = index; editCommentMessage = comment.comment"
                           class="button is-warning"
                         >
@@ -111,6 +112,7 @@
                       </div>
                       <div class="level-item">
                         <button
+                          v-if="isCommentOwner (comment)" 
                           @click="deleteComment(comment.id, index)"
                           class="button is-danger is-outlined"
                         >
@@ -128,7 +130,9 @@
           </div>
           <footer class="card-footer">
             <router-link class="card-footer-item" to="/">To Home Page</router-link>
-            <a class="card-footer-item" @click="deleteBlog">
+            <a
+              v-if="isBlogOwner(blog)" 
+              class="card-footer-item" @click="deleteBlog">
               <span>Delete this blog</span>
             </a>
           </footer>
@@ -139,9 +143,12 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '@/plugins/axios'
 
 export default {
+  props: {
+    user:Object
+  },
   data() {
     return {
       blog: {},
@@ -157,6 +164,14 @@ export default {
     this.getBlogDetail(this.$route.params.id);
   },
   methods: {
+    isBlogOwner (blog) {
+      if (!this.user) return false
+      return blog.create_by_id === this.user.id || this.user.role == "admin"
+    },
+    isCommentOwner (comment) {
+      if (!this.user) return false
+      return comment.comment_by_id === this.user.id || this.user.role == "admin"
+    },
     getBlogDetail(blogId) {
       axios
         .get(`http://localhost:3000/blogs/${blogId}`)

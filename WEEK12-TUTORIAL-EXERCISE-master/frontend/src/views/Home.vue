@@ -42,6 +42,7 @@
                   </span>
                 </a>
                 <a
+                  v-if="isBlogOwner(blog)"
                   class="card-footer-item"
                   @click="$router.push({name:'update-blog',params:{id:blog.id}})"
                 >
@@ -59,10 +60,13 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '@/plugins/axios'
 // @ is an alias to /src
 export default {
   name: "Home",
+  props: {
+    user:Object
+  },
   data() {
     return {
       search: "",
@@ -73,6 +77,10 @@ export default {
     this.getBlogs();
   },
   methods: {
+    isBlogOwner (blog) {
+      if (!this.user) return false
+      return blog.create_by_id === this.user.id || this.user.role == "admin"
+    },
     getBlogs() {
       axios
         .get("http://localhost:3000", {

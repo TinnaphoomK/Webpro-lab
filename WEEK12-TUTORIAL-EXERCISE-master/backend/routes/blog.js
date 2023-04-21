@@ -3,6 +3,7 @@ const path = require("path");
 const pool = require("../config");
 const fs = require("fs");
 const multer = require("multer");
+const { isLoggedIn } = require('../middlewares')
 
 router = express.Router();
 
@@ -19,6 +20,20 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
+
+//middlewares check permission
+const blogOwner = async (req, res, next) => {
+  if (req.user.role === 'admin') {
+    return next()
+  }
+  const [[blog]] = await pool.query('SELECT * FROM blogs WHERE id=?', [req.params.id])
+
+  if (blog.create_by_id !== req.user.id) {
+    return res.status(403).send('You do not have permission to perform this action')
+  }
+
+  next()
+}
 
 router.put("/blogs/addlike/:id", async function (req, res, next) {
   const conn = await pool.getConnection();
@@ -50,7 +65,7 @@ router.put("/blogs/addlike/:id", async function (req, res, next) {
   }
 });
 
-router.post("/blogs", upload.array("myImage", 5), async function (req, res, next) {
+router.post("/blogs", isLoggedIn, upload.array("myImage", 5), async function (req, res, next) {
   const file = req.files;
   let pathArray = [];
 
@@ -69,9 +84,9 @@ router.post("/blogs", upload.array("myImage", 5), async function (req, res, next
 
   try {
     let results = await conn.query(
-      "INSERT INTO blogs(title, content, status, pinned, `like`, create_date) " +
-      "VALUES(?, ?, ?, ?, 0, CURRENT_TIMESTAMP);",
-      [title, content, status, pinned]
+      "INSERT INTO blogs(title, content, status, pinned, `like`, create_date, create_by_id)" +
+      "VALUES(?, ?, ?, ?, 0, CURRENT_TIMESTAMP, ?);",
+      [title, content, status, pinned, req.user.id]
     );
     const blogId = results[0].insertId;
 
@@ -79,12 +94,11 @@ router.post("/blogs", upload.array("myImage", 5), async function (req, res, next
       let path = [blogId, file.path.substring(6), index == 0 ? 1 : 0];
       pathArray.push(path);
     });
-
+    console.log(pathArray)
     await conn.query(
       "INSERT INTO images(blog_id, file_path, main) VALUES ?;",
       [pathArray]
     );
-
     await conn.commit();
     res.send("success!");
   } catch (err) {
@@ -125,7 +139,7 @@ router.get("/blogs/:id", function (req, res, next) {
     });
 });
 
-router.put("/blogs/:id", upload.array("myImage", 5), async function (req, res, next) {
+router.put("/blogs/:id", isLoggedIn, blogOwner, upload.array("myImage", 5), async function (req, res, next) {
   // Your code here
   const file = req.files;
   let pathArray = []
@@ -174,7 +188,7 @@ router.put("/blogs/:id", upload.array("myImage", 5), async function (req, res, n
   return;
 });
 
-router.delete("/blogs/:id", async function (req, res, next) {
+router.delete("/blogs/:id", isLoggedIn, blogOwner, async function (req, res, next) {
   // Your code here
   const conn = await pool.getConnection();
   // Begin transaction

@@ -14,10 +14,7 @@
       <div class="column is-4">
         <h1 class="title">Log in</h1>
 
-        <p
-          v-if="error"
-          class="px-3 py-2 mb-3 has-text-danger-dark has-background-danger-light"
-        >
+        <p v-if="error" class="px-3 py-2 mb-3 has-text-danger-dark has-background-danger-light">
           {{ error }}
         </p>
 
@@ -45,7 +42,7 @@
           </div>
         </div>
 
-        <button class="button is-primary is-fullwidth">
+        <button class="button is-primary is-fullwidth" @click="submit">
           Login
         </button>
 
@@ -58,12 +55,34 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
+
 export default {
-  data () {
+  data() {
     return {
       username: '',
       password: '',
       error: ''
+    }
+  },
+  methods: {
+    submit() {
+      const data = {
+        username: this.username,
+        password: this.password
+      }
+
+      axios.post('http://localhost:3000/user/login/', data)
+        .then(res => {
+          const token = res.data.token
+          localStorage.setItem('token', token)
+          this.$emit('auth-change')
+          this.$router.push({ path: '/' })
+        })
+        .catch(error => {
+          this.error = error.response.data
+          console.log(error.response.data)
+        })
     }
   }
 }

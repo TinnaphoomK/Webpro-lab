@@ -3,7 +3,8 @@ const express = require("express")
 const app = express();
 const cors = require('cors')
 app.use(cors())
-
+const { logger } = require('./middlewares')
+app.use(logger)
 // Statics
 app.use(express.static('static'))
 app.use(express.json()) // for parsing application/json

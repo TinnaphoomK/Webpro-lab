@@ -74,7 +74,7 @@
 
       <div class="field is-grouped">
         <div class="control">
-          <button @click="submitBlog" class="button is-link">Submit</button>
+          <button @click="submitBlog()" class="button is-link">Submit</button>
         </div>
         <div class="control">
           <button @click="$router.go(-1)" class="button is-link is-light">Cancel</button>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '@/plugins/axios'
 
 export default {
   data() {
@@ -137,7 +137,7 @@ export default {
       // พอไปฝั่ง backend มันจะจัด file ให้เป็น Array เพื่อเอาไปใช้งานต่อได้
 
       axios
-        .post("http://localhost:3000/blogs", formData)
+        .post("http://localhost:3000/blogs", formData,)
         .then((res) => this.$router.push({name: 'home'}))
         .catch((e) => console.log(e.response.data));
     },

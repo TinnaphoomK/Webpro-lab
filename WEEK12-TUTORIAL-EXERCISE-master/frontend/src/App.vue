@@ -7,13 +7,7 @@
           YouBlog
         </router-link>
 
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -36,7 +30,7 @@
             </a>
             <div class="navbar-dropdown">
               <a class="navbar-item">Profile</a>
-              <a class="navbar-item">Log out</a>
+              <a class="navbar-item" @click="logout()">Log out</a>
             </div>
           </div>
 
@@ -53,17 +47,39 @@
         </div>
       </div>
     </nav>
-    
-    <router-view :key="$route.fullPath"/>
+
+    <router-view :key="$route.fullPath" @auth-change="onAuthChange" :user="user" />
   </div>
 </template>
 
 <script>
+import axios from '@/plugins/axios'
+
 export default {
-  data () {
+  data() {
     return {
       user: null
     }
+  },
+  mounted() {
+    this.onAuthChange()
+  },
+  methods: {
+    logout(){
+      localStorage.removeItem("token")
+      this.user = null
+    },
+    onAuthChange() {
+      const token = localStorage.getItem('token')
+      if (token) {
+        this.getUser()
+      }
+    },
+    getUser() {
+      axios.get('/user/me').then(res => {
+        this.user = res.data
+      })
+    },
   }
 }
 </script>
