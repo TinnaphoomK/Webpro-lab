@@ -24,11 +24,6 @@ const routes = [
     name: 'update-blog',
     component: () => import('../views/blogs/UpdateBlog.vue')
   },
-  {
-     path: '/user/signup',
-     name: 'signup',
-     component: () => import('../views/Signup.vue')
-  }
 ]
 
 const router = new VueRouter({

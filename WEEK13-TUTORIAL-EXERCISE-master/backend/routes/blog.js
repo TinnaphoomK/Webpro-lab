@@ -7,7 +7,6 @@ router = express.Router();
 
 // Require multer for file upload
 const multer = require("multer");
-const Joi = require("joi");
 // SET STORAGE
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -20,24 +19,8 @@ var storage = multer.diskStorage({
     );
   },
 });
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 } // limit file size to 1MB
-}).array("myImage", 5)
+const upload = multer({ storage: storage });
 
-function handleFileUpload(req, res, next) {
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
-      // File size exceeds limit.
-      return res.status(400).send('File size exceeds limit.');
-    } else if (err) {
-      // An unknown error occurred when uploading.
-      return res.status(500).send('An unknown error occurred.');
-    }
-    // Call next to continue processing the request.
-    next();
-  });
-}
 // Like blog that id = blogId
 router.put("/blogs/addlike/:blogId", async function (req, res, next) {
   const conn = await pool.getConnection();
@@ -68,53 +51,32 @@ router.put("/blogs/addlike/:blogId", async function (req, res, next) {
     conn.release();
   }
 });
-const createblog = Joi.object({
-  title: Joi.string().required().min(10).max(25).pattern(/^[a-z]+$/),
-  content: Joi.string().required().min(50),
-  pinned: Joi.string().required(),
-  status: Joi.string().valid('status_private', 'status_public').required(),
-  reference: Joi.string().uri().optional(),
-  start_date: Joi.date().optional().max(Joi.ref('end_date')),
-  end_date: Joi.date().optional(),
-}).custom((value) => {
-  if(value.end_date && !value.start_date){
-    throw new Joi.ValidationError("you want to fill in start_date")
-  }
-  return value
-})
 
 router.post(
   "/blogs",
-  handleFileUpload,
+  upload.array("myImage", 5),
   async function (req, res, next) {
-    try {
-      await createblog.validateAsync(req.body, { abortEarly: false })
-    } catch (error) {
-      return res.status(400).json(error.toString())
-    }
     if (req.method == "POST") {
       const file = req.files;
       let pathArray = [];
-      if (file.length === 0) {
-        console.log(file)
-        return res.status(400).send("Please upload a file" );
+
+      if (!file) {
+        return res.status(400).json({ message: "Please upload a file" });
       }
 
       const title = req.body.title;
       const content = req.body.content;
-      const status = req.body.status == "status_public"? "01" : "02";
+      const status = req.body.status;
       const pinned = req.body.pinned;
-      const start_date = req.body.start_date
-      const end_date = req.body.end_date
-      const reference = req.body.reference
+
       const conn = await pool.getConnection();
       // Begin transaction
       await conn.beginTransaction();
 
       try {
         let results = await conn.query(
-          "INSERT INTO blogs(title, content, status, pinned, `like`,create_date, start_date, end_date, reference) VALUES(?, ?, ?, ?, 0,CURRENT_TIMESTAMP, ?, ?, ?);",
-          [title, content, status, pinned, start_date, end_date, reference]
+          "INSERT INTO blogs(title, content, status, pinned, `like`,create_date) VALUES(?, ?, ?, ?, 0,CURRENT_TIMESTAMP);",
+          [title, content, status, pinned]
         );
         const blogId = results[0].insertId;
 
@@ -132,7 +94,7 @@ router.post(
         res.send("success!");
       } catch (err) {
         await conn.rollback();
-        return res.status(400).json(err.toString());
+        return res.status(400).json(err);
       } finally {
         console.log("finally");
         conn.release();
@@ -172,7 +134,7 @@ router.get("/blogs/:id", function (req, res, next) {
     });
 });
 
-router.put("/blogs/:id", handleFileUpload, async function (req, res, next) {
+router.put("/blogs/:id", upload.array("myImage", 5), async function (req, res, next) {
   // Your code here
   const file = req.files;
   let pathArray = []
@@ -187,6 +149,7 @@ router.put("/blogs/:id", handleFileUpload, async function (req, res, next) {
   const content = req.body.content;
   const status = req.body.status;
   const pinned = req.body.pinned;
+
   const conn = await pool.getConnection()
   await conn.beginTransaction();
 
