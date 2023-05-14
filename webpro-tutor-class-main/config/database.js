@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     database: 'todo_app',
-    password: 'root_password',
+    password: '',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

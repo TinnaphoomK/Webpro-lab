@@ -1,15 +1,107 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 
-const pool = require('./config/database');
+const pool = require("./config/database");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/** 
- *  เริ่มทำข้อสอบได้ที่ใต้ข้อความนี้เลยครับ
- * !!! ไม่ต้องใส่ app.listen() ในไฟล์นี้นะครับ มันจะไป listen ที่ไฟล์ server.js เองครับ !!!
- * !!! ห้ามลบ module.exports = app; ออกนะครับ  ไม่งั้นระบบตรวจไม่ได้ครับ !!!
-*/
+app.post("/todo", async (req, res, next) => {
+  connection = await pool.getConnection();
+  await connection.beginTransaction();
+  try {
+    const { title, description, due_date } = req.body;
+    const [max] = await pool.query("SELECT MAX(`order`) AS maxorder FROM todo");
+    const order = max[0].maxorder + 1;
+    const [result] = await connection.query(
+      "INSERT INTO todo (title, description, due_date, `order`) VALUES (?, ?, ?, ?)",
+      [title, description, due_date || new Date(), order]
+    );
+    await connection.commit();
+    res.status(201).json({
+      message: `สร้าง ToDo '${title}' สำเร็จ`,
+      todo: {
+        id: result.insertId,
+        title,
+        description,
+        due_date: due_date ? new Date(due_date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
+        order,
+      },
+    });
+  } catch (error) {
+    if (connection) {
+      await connection.rollback();
+    }
+    next(error);
+  } finally {
+      connection.release();
+  }
+});
+
+app.delete("/todo/:id", async (req, res, next) => {
+  connection = await pool.getConnection();
+  await connection.beginTransaction();
+  try {
+    const { id } = req.params;
+    const [result] = await connection.query("DELETE FROM todo WHERE id = ?", [
+      id,
+    ]);
+    await connection.commit();
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "ไม่พบ ToDo ที่ต้องการลบ",
+      });
+    }
+    res.status(200).json({
+      message: "ลบ ToDo 'อ่านหนังสือสอบ Web Pro' สำเร็จ",
+    });
+  } catch (error) {
+    if (connection) {
+      await connection.rollback();
+    }
+    next(error);
+  } finally {
+      connection.release();
+  }
+});
+
+app.get("/todo", async (req, res, next) => {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+    try {
+      const { start_date, end_date } = req.query;
+      let query = "SELECT * FROM todo";
+      let queryParams = [];
+        
+      if (start_date && end_date) {
+        query += " WHERE due_date BETWEEN ? AND ?";
+        queryParams = [start_date, end_date];
+      } else if (start_date) {
+        query += " WHERE due_date >= ?";
+        queryParams = [start_date];
+      } else if (end_date) {
+        query += " WHERE due_date <= ?";
+        queryParams = [end_date];
+      }
+  
+      query += " ORDER BY `order` ASC";
+  
+      const [result] = await connection.query(query, queryParams);
+      await connection.commit();
+      const formattedTodos = result.map((todo) => ({
+        ...todo,
+        due_date: new Date(todo.due_date).toISOString().slice(0, 10),
+      }));
+      res.status(200).json({ todos: formattedTodos });
+    } catch (error) {
+      if (connection) {
+        await connection.rollback();
+      }
+      next(error);
+    } finally {
+      connection.release();
+    }
+  });
+  
 
 module.exports = app;
