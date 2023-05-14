@@ -123,13 +123,13 @@ app.get("/todo", async (req, res, next) => {
 
 		// check query params มีหรือไม่มีก็ได้
 		if (start_date && end_date) {
-			query += " WHERE due_date BETWEEN ? AND ?";
-			queryParams = [start_date, end_date];
+			query += " WHERE due_date BETWEEN ? AND ?"; // query where due_date between start_date and end_date
+			queryParams = [start_date, end_date]; 
 		} else if (start_date) {
-			query += " WHERE due_date >= ?";
+			query += " WHERE due_date >= ?"; // query where due_date >= start_date
 			queryParams = [start_date];
 		} else if (end_date) {
-			query += " WHERE due_date <= ?";
+			query += " WHERE due_date <= ?"; // query where due_date <= end_date
 			queryParams = [end_date];
 		}
 
