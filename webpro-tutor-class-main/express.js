@@ -1,12 +1,10 @@
 const express = require("express");
 const app = express();
-
+const Joi = require("joi");
 const pool = require("./config/database");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const Joi = require("joi");
 
 app.post("/todo", async (req, res, next) => {
   const schema = Joi.object({
