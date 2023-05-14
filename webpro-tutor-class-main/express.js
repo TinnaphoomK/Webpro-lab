@@ -15,7 +15,7 @@ app.post("/todo", async (req, res, next) => {
     due_date: Joi.date().iso(),
   });
 
-  const { error, value } = schema.validate(req.body);
+  const { value } = schema.validate(req.body);
 
   let connection = await pool.getConnection();
   await connection.beginTransaction();
