@@ -7,36 +7,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post("/todo", async (req, res, next) => {
-  connection = await pool.getConnection();
-  await connection.beginTransaction();
-  try {
-    const { title, description, due_date } = req.body;
-    const [max] = await pool.query("SELECT MAX(`order`) AS maxorder FROM todo");
-    const order = max[0].maxorder + 1;
-    const [result] = await connection.query(
-      "INSERT INTO todo (title, description, due_date, `order`) VALUES (?, ?, ?, ?)",
-      [title, description, due_date || new Date(), order]
-    );
-    await connection.commit();
-    res.status(201).json({
-      message: `สร้าง ToDo '${title}' สำเร็จ`,
-      todo: {
-        id: result.insertId,
-        title,
-        description,
-        due_date: due_date ? new Date(due_date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
-        order,
-      },
-    });
-  } catch (error) {
-    if (connection) {
-      await connection.rollback();
-    }
-    next(error);
-  } finally {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+    try {
+      const { title, description, due_date } = req.body;
+      const [max] = await pool.query("SELECT MAX(`order`) AS maxorder FROM todo");
+      const order = max[0].maxorder + 1;
+      const now = new Date().toISOString().slice(0, 10);
+      const [result] = await connection.query(
+        "INSERT INTO todo (title, description, due_date, `order`) VALUES (?, ?, ?, ?)",
+        [title, description, due_date || now, order]
+      );
+      await connection.commit();
+      res.status(201).json({
+        message: `สร้าง ToDo '${title}' สำเร็จ`,
+        todo: {
+          id: result.insertId,
+          title,
+          description,
+          due_date: due_date ? new Date(due_date).toISOString().slice(0, 10) : now,
+          order,
+        },
+      });
+    } catch (error) {
+      if (connection) {
+        await connection.rollback();
+      }
+      next(error);
+    } finally {
       connection.release();
-  }
-});
+    }
+  });
 
 app.delete("/todo/:id", async (req, res, next) => {
   connection = await pool.getConnection();
