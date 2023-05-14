@@ -104,6 +104,7 @@ app.get("/todo", async (req, res, next) => {
     let query = "SELECT * FROM todo";
     let queryParams = [];
 
+    // มีไม่มีก็ได้
     if (start_date && end_date) {
       query += " WHERE due_date BETWEEN ? AND ?";
       queryParams = [start_date, end_date];
