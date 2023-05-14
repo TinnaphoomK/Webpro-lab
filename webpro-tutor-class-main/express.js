@@ -7,61 +7,63 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post("/todo", async (req, res, next) => {
-  const schema = Joi.object({
-    title: Joi.string().required(),
-    description: Joi.string().required(),
-    due_date: Joi.date().iso(),
-  });
-
-  const { value } = schema.validate(req.body);
-
-  let connection = await pool.getConnection();
-  await connection.beginTransaction();
-
-  try {
-    const { title, description, due_date } = value;
-    if (!title) {
-      return res.status(400).json({
-        message: "ต้องกรอก title",
-      });
-    }
-    if (!description) {
-      return res.status(400).json({
-        message: "ต้องกรอก description",
-      });
-    }
-    const [max] = await pool.query("SELECT MAX(`order`) AS maxorder FROM todo");
-    const order = max[0].maxorder + 1;
-    const now = new Date().toISOString().slice(0, 10);
-
-    const [result] = await connection.query(
-      "INSERT INTO todo (title, description, due_date, `order`) VALUES (?, ?, ?, ?)",
-      [title, description, due_date || now, order]
-    );
-
-    await connection.commit();
-
-    res.status(201).json({
-      message: `สร้าง ToDo '${title}' สำเร็จ`,
-      todo: {
-        id: result.insertId,
-        title,
-        description,
-        due_date: due_date
-          ? new Date(due_date).toISOString().slice(0, 10)
-          : now,
-        order,
-      },
+    const schema = Joi.object({
+      title: Joi.string().required().messages({
+        'string.empty': 'ต้องกรอก title'
+      }),
+      description: Joi.string().required().messages({
+        'string.empty': 'ต้องกรอก description'
+      }),
+      due_date: Joi.date().iso(),
     });
-  } catch (error) {
-    if (connection) {
-      await connection.rollback();
+  
+    const { value, error } = schema.validate(req.body);
+  
+    if (error) {
+      return res.status(400).json({
+        message: error.details[0].message,
+      });
     }
-    next(error);
-  } finally {
-    connection.release();
-  }
-});
+  
+    let connection = await pool.getConnection();
+    await connection.beginTransaction();
+  
+    try {
+      const { title, description, due_date } = value;
+  
+      const [max] = await pool.query("SELECT MAX(`order`) AS maxorder FROM todo");
+      const order = max[0].maxorder + 1;
+      const now = new Date().toISOString().slice(0, 10);
+  
+      const [result] = await connection.query(
+        "INSERT INTO todo (title, description, due_date, `order`) VALUES (?, ?, ?, ?)",
+        [title, description, due_date || now, order]
+      );
+  
+      await connection.commit();
+  
+      res.status(201).json({
+        message: `สร้าง ToDo '${title}' สำเร็จ`,
+        todo: {
+          id: result.insertId,
+          title,
+          description,
+          due_date: due_date
+            ? new Date(due_date).toISOString().slice(0, 10)
+            : now,
+          order,
+        },
+      });
+    } catch (error) {
+      if (connection) {
+        await connection.rollback();
+      }
+      next(error);
+    } finally {
+      connection.release();
+    }
+  });
+  
 
 app.delete("/todo/:id", async (req, res, next) => {
   let connection = await pool.getConnection();
@@ -120,7 +122,7 @@ app.get("/todo", async (req, res, next) => {
 
     const formattedTodos = result.map((todo) => {
       const dueDate = new Date(todo.due_date);
-      dueDate.setDate(dueDate.getDate() + 1); // add one day to due date
+      dueDate.setDate(dueDate.getDate() + 1);
       return {
         ...todo,
         due_date: dueDate.toISOString().slice(0, 10),
