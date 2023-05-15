@@ -65,7 +65,7 @@ const createBlogSchema = Joi.object({
 	reference: Joi.string().uri().required(),
 	start_date: Joi.date().allow('null'),
 	end_date: Joi.date().greater(Joi.ref('start_date')).allow('', Joi.ref('start_date')).optional(),
-	pinned: Joi.number().valid(0, 1).required(),
+	pinned: Joi.number().valid(0, 1).required(), // 0: not pinned, 1: pinned
   }).and('start_date', 'end_date');
 
 router.post("/blogs", upload.array("myImage", 5), async function (req, res, next) {
